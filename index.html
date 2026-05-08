@@ -158,8 +158,8 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 .pdf-preview{background:#f3f3ee;border:1px solid var(--border);border-radius:9px;padding:16px;max-height:55vh;overflow-y:auto;margin-bottom:14px}
 
 /* Toast */
-.toast{position:fixed;bottom:20px;right:20px;background:#166534;color:#fff;font-size:12px;font-weight:600;padding:9px 18px;border-radius:9px;opacity:0;transition:opacity .3s;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.15);z-index:200}
-.toast.show{opacity:1}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;font-size:14px;font-weight:700;padding:13px 26px;border-radius:12px;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;box-shadow:0 6px 20px rgba(0,0,0,.25);z-index:9999;white-space:nowrap;max-width:90vw;text-overflow:ellipsis;overflow:hidden}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}
 
 .badge{display:inline-flex;align-items:center;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 8px;border-radius:5px}
 
@@ -176,21 +176,134 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 .hito-bar{height:8px;background:var(--bg);border-radius:4px;overflow:hidden;margin-top:8px}
 .hito-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--green),#22c55e);transition:width .6s ease}
 
+/* ── Bottom Navigation (móvil) ── */
+.bottom-nav{display:none}
+.bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:transparent;border:none;color:var(--muted);padding:7px 4px 8px;cursor:pointer;transition:all .15s;border-top:2px solid transparent;min-height:54px}
+.bnav-btn.on{color:var(--text);border-top-color:var(--text);background:linear-gradient(to bottom,#fafaf8,#fff)}
+.bnav-ico{font-size:20px;line-height:1}
+.bnav-lbl{font-size:10px;font-weight:600;letter-spacing:.2px}
+
+/* ── Contraste cajones (Liquidez · Activos · Extras) ── */
+.cajon-head{background:#f3f4f6 !important;border-bottom:1px solid #e5e7eb;font-weight:700}
+.cajon-head .cajon-title{color:#374151}
+.cajon-title .lbl{color:#6b7280}
+
+/* ── Cards móviles para tablas (assets, capital, etc.) ── */
+.mcard{display:none}
+
+/* ── Plataformas: gestión ── */
+.plat-actions{display:flex;gap:6px;flex-wrap:wrap}
+.btn-plat-action{font-size:11px;font-weight:600;padding:5px 11px;border-radius:7px;border:1px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;transition:all .15s}
+.btn-plat-action:hover{border-color:#999;color:var(--text)}
+.btn-plat-del{background:var(--rbg);color:var(--red);border-color:var(--rborder)}
+.btn-plat-del:hover{background:#fee2e2}
+
 @media(max-width:640px){
-  .hdr{padding:14px 14px 0}.content{padding:14px 14px 40px}
+  .hdr{padding:14px 14px 0}.content{padding:14px 14px 100px}
   .pb-head{padding:12px 14px}
   .th,.tr,.cajon-head{padding:9px 12px}
   .stats{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:9px}
   .sc{padding:13px 14px}
   .liq-cell{padding:11px 13px}
+
+  /* Ocultar tabs desktop, mostrar bottom-nav */
+  .tabs-desktop{display:none}
+  .bottom-nav{
+    display:flex;
+    position:fixed;left:0;right:0;bottom:0;
+    background:rgba(255,255,255,.97);
+    backdrop-filter:saturate(180%) blur(12px);
+    -webkit-backdrop-filter:saturate(180%) blur(12px);
+    border-top:1px solid var(--border);
+    z-index:50;
+    padding-bottom:env(safe-area-inset-bottom,0);
+    box-shadow:0 -2px 8px rgba(0,0,0,.04);
+  }
+
+  /* Tablas → cards en móvil: ocultar el grid, mostrar cards */
+  .table-mobile-cards .th,
+  .table-mobile-cards .tr-mobile-hide{display:none !important}
+  .mcard{
+    display:flex;flex-direction:column;gap:6px;
+    background:#fff;border:1px solid var(--border);border-radius:12px;
+    padding:12px 14px;margin-bottom:8px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  .mcard-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .mcard-row.bord{border-top:1px solid #f0f0e8;padding-top:7px;margin-top:3px}
+  .mcard-name{font-size:14px;font-weight:700;color:var(--text)}
+  .mcard-sub{font-size:10px;color:var(--subtle);font-weight:500;letter-spacing:.5px;text-transform:uppercase}
+  .mcard-val{font-family:'Roboto Mono',monospace;font-size:13px;font-weight:700}
+  .mcard-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;margin-top:4px}
+  .mcard-actions button{min-height:36px;padding:7px 12px;font-size:12px;font-weight:600}
+  .mcard-actions .pinp-wrap input{font-size:14px;min-height:34px}
+  .mcard-actions .pinp-wrap button{min-width:34px;min-height:34px}
+
+  /* Botones de acción más grandes para pulgar */
+  .btn-buy,.btn-sell,.btn-add,.btn-extra{min-height:36px;font-size:12px}
+  .pinp{font-size:13px;min-height:32px}
 }
 @media(max-width:480px){
   .stats{grid-template-columns:1fr 1fr}
   .sc{padding:12px}
+  .bnav-lbl{font-size:9px}
 }
 </style>
 </head>
 <body>
+<!-- Pantalla de bloqueo (clave: 8959) -->
+<div id="lock-screen" style="position:fixed;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;border-radius:18px;padding:34px 30px;max-width:340px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.4);text-align:center">
+    <div style="font-size:48px;margin-bottom:12px">🔒</div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#94a3b8;margin-bottom:8px">PORTFOLIO JS</div>
+    <div style="font-size:18px;font-weight:800;color:#0f172a;margin-bottom:6px">Acceso seguro</div>
+    <div style="font-size:13px;color:#64748b;margin-bottom:22px;line-height:1.5">Introduce tu clave de acceso para continuar</div>
+    <input id="lock-pin" type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off"
+      placeholder="••••" maxlength="8"
+      style="width:100%;font-size:24px;font-weight:700;text-align:center;letter-spacing:8px;padding:14px;border:2px solid #e2e8f0;border-radius:12px;color:#0f172a;font-family:'Roboto Mono',monospace;margin-bottom:14px;outline:none;background:#f8fafc"/>
+    <div id="lock-error" style="display:none;color:#dc2626;font-size:12px;font-weight:600;margin-bottom:10px">❌ Clave incorrecta</div>
+    <button id="lock-btn" style="width:100%;padding:13px;background:#0f172a;color:#fff;border:none;border-radius:11px;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.3px">Desbloquear</button>
+    <div style="font-size:10px;color:#cbd5e1;margin-top:18px">Tus datos siguen guardados localmente</div>
+  </div>
+</div>
+<script>
+(function(){
+  // Pantalla de bloqueo: solo se desbloquea con la clave correcta
+  const PIN_CORRECT="8959";
+  const lockScreen=document.getElementById("lock-screen");
+  const pinInput=document.getElementById("lock-pin");
+  const lockBtn=document.getElementById("lock-btn");
+  const errBox=document.getElementById("lock-error");
+  const tryUnlock=()=>{
+    const v=(pinInput.value||"").trim();
+    if(v===PIN_CORRECT){
+      lockScreen.style.transition="opacity .3s";
+      lockScreen.style.opacity="0";
+      setTimeout(()=>{lockScreen.remove();},300);
+      try{sessionStorage.setItem("portfolio_unlocked","1");}catch(e){}
+      // Intentar cargar datos desde Google Drive al desbloquear
+      setTimeout(()=>{
+        if(typeof gdriveLoad==="function")gdriveLoad();
+      },500);
+    }else{
+      errBox.style.display="block";
+      pinInput.value="";
+      pinInput.style.borderColor="#dc2626";
+      setTimeout(()=>{pinInput.style.borderColor="#e2e8f0";errBox.style.display="none";},2000);
+    }
+  };
+  // Auto-unlock si ya se introdujo la clave en esta sesión
+  try{if(sessionStorage.getItem("portfolio_unlocked")==="1"){
+    lockScreen.remove();
+    // También intentar sync al recargar con sesión activa
+    setTimeout(()=>{if(typeof gdriveLoad==="function")gdriveLoad();},800);
+  }}catch(e){}
+  lockBtn&&lockBtn.addEventListener("click",tryUnlock);
+  pinInput&&pinInput.addEventListener("keydown",(e)=>{if(e.key==="Enter"){e.preventDefault();tryUnlock();}});
+  setTimeout(()=>{pinInput&&pinInput.focus();},100);
+})();
+</script>
+
 <div id="app"></div>
 <div class="toast" id="toast">✓ Guardado</div>
 
@@ -200,28 +313,74 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 // Cada plataforma tiene 3 cajones: Liquidez · Activos · Extras
 //================================================================
 
-const PLATS=[
+// ── Plataformas por defecto (usuario puede añadir/eliminar) ──
+const DEFAULT_PLATS=[
   {id:"tr",      name:"Trade Republic",     tipo:"Acciones / ETF",   emoji:"📈",base:"EUR",color:"#16a34a"},
-  {id:"binance", name:"Binance",            tipo:"Cripto Spot",      emoji:"🟡",base:"USD",color:"#d97706"},
-  {id:"kucoin",  name:"KuCoin",             tipo:"Cripto Spot",      emoji:"🟢",base:"USD",color:"#22c55e"},
-  {id:"cdc",     name:"Crypto.com",         tipo:"Spot · Staking · Tarjeta",emoji:"🔷",base:"USD",color:"#3b82f6",hasSubs:true},
-  {id:"bingx",   name:"BingX",              tipo:"Spot · Futuros",   emoji:"⚡",base:"USD",color:"#f97316",hasSubs:true},
+  {id:"cdc",     name:"Crypto.com",         tipo:"Cripto / Tarjeta", emoji:"🔷",base:"USD",color:"#3b82f6"},
+  {id:"kucoin",  name:"KuCoin",             tipo:"Cripto",           emoji:"🟢",base:"USD",color:"#22c55e"},
+  {id:"bingx",   name:"BingX",              tipo:"Cripto / Futuros", emoji:"⚡",base:"USD",color:"#f97316"},
   {id:"margex",  name:"Margex",             tipo:"Futuros",          emoji:"📊",base:"USD",color:"#6366f1"},
-  {id:"metamask",name:"MetaMask",           tipo:"DeFi / ETH",       emoji:"🦊",base:"USD",color:"#fb923c"},
   {id:"ledger",  name:"Ledger",             tipo:"Hardware Wallet",  emoji:"🔐",base:"USD",color:"#64748b"},
   {id:"helium",  name:"Helium",             tipo:"HNT Mining",       emoji:"📡",base:"USD",color:"#0891b2"},
 ];
 
-const CDC_SUBS=[
-  {id:"spot",   name:"Spot",    emoji:"💱"},
-  {id:"stake",  name:"Staking", emoji:"🔒"},
-  {id:"card",   name:"Tarjeta", emoji:"💳"},
-];
-
-const BINGX_SUBS=[
+// Subcuentas estándar para TODAS las plataformas (siempre presentes)
+const STANDARD_SUBS=[
   {id:"spot",    name:"Spot",    emoji:"💱"},
   {id:"futuros", name:"Futuros", emoji:"⚡"},
 ];
+
+// Subcuentas opcionales que el usuario puede activar manualmente por plataforma
+const OPTIONAL_SUBS=[
+  {id:"stake",   name:"Staking", emoji:"🔒"},
+  {id:"card",    name:"Tarjeta", emoji:"💳"},
+];
+
+// Colores y emojis disponibles para plataformas creadas por el usuario
+const NEW_PLAT_COLORS=["#dc2626","#d97706","#16a34a","#0891b2","#6366f1","#7c3aed","#db2777","#0ea5e9","#10b981","#f59e0b"];
+const NEW_PLAT_EMOJIS=["💼","🏦","📊","🪙","💎","🚀","⭐","🔶","🔷","💠"];
+
+// Acceso a la lista de plataformas activas: viene del estado persistido (S.platsList)
+// Si no existe, usa DEFAULT_PLATS. Esto permite añadir/borrar plataformas dinámicamente.
+function getPlats(){
+  try{
+    if(typeof S!=="undefined"&&S&&S.platsList&&Array.isArray(S.platsList)&&S.platsList.length){
+      return S.platsList;
+    }
+  }catch(e){/* TDZ: S aún no inicializado */}
+  return DEFAULT_PLATS;
+}
+
+// Subcuentas de una plataforma: SIEMPRE las 3 estándar + las opcionales activadas
+function getSubsFor(platId){
+  const plats=getPlats();
+  const plat=plats.find(p=>p.id===platId);
+  const enabled=plat?.enabledSubs||[]; // ids de subs opcionales activadas
+  const subs=[...STANDARD_SUBS];
+  OPTIONAL_SUBS.forEach(s=>{if(enabled.includes(s.id))subs.push(s);});
+  return subs;
+}
+
+// Compatibilidad: variable PLATS dinámica que apunta a getPlats()
+// (muchas funciones del código existente usan PLATS.forEach, etc.)
+const PLATS=new Proxy({},{
+  get(_,prop){
+    const arr=getPlats();
+    if(prop==="length")return arr.length;
+    if(prop===Symbol.iterator)return arr[Symbol.iterator].bind(arr);
+    if(typeof prop==="string"&&!isNaN(prop))return arr[prop];
+    if(typeof arr[prop]==="function")return arr[prop].bind(arr);
+    return arr[prop];
+  },
+  has(_,prop){return prop in getPlats();},
+  ownKeys(){return Reflect.ownKeys(getPlats());},
+  getOwnPropertyDescriptor(_,prop){return Object.getOwnPropertyDescriptor(getPlats(),prop);},
+});
+
+// Subcuentas legacy (CDC_SUBS, BINGX_SUBS) — usadas por código antiguo
+// Se mantienen para retrocompatibilidad pero ahora todas las plats usan getSubsFor()
+const CDC_SUBS=STANDARD_SUBS.concat(OPTIONAL_SUBS);
+const BINGX_SUBS=STANDARD_SUBS;
 
 const PROFILES=[
   {id:"global", name:"Global",  emoji:"🌐", color:"#1d4ed8"},
@@ -231,6 +390,103 @@ const PROFILES=[
 
 // Tipo de cambio interno
 const EUR_USD=1.1727; // Tipo de cambio actualizado mayo 2026
+
+// ================================================================
+// GOOGLE DRIVE — Sincronización
+// ================================================================
+const GDRIVE_URL="https://script.google.com/macros/s/AKfycbyR_L6-pW7X2C6x09YQJrf2i5wTJU1ZlJgX6cKdGw/exec";
+
+// Indicador de sync en curso
+let _syncInProgress=false;
+
+// Enviar datos a Google Drive (POST)
+async function gdriveSync(action="sync"){
+  if(_syncInProgress)return;
+  _syncInProgress=true;
+  const el=document.getElementById("sync-status");
+  if(el){el.textContent="⏳ Sincronizando...";el.style.color="var(--amber)";}
+  try{
+    const payload={};
+    PROFILES.filter(p=>p.id!=="global").forEach(p=>{
+      const raw=localStorage.getItem(`${KEY_BASE}_${p.id}`);
+      if(raw)payload[p.id]=JSON.parse(raw);
+    });
+    const res=await fetch(GDRIVE_URL,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({action,payload,ts:Date.now()}),
+      mode:"cors"
+    });
+    if(!res.ok)throw new Error("HTTP "+res.status);
+    const data=await res.json();
+    if(data&&data.ok===true){
+      if(el){el.textContent="✅ Drive OK";el.style.color="var(--green)";}
+      if(action==="sync")showToast("✅ ¡Sincronizado con Google Drive!");
+      if(action==="backup")showToast("✅ ¡Copia guardada en Drive!");
+    }else{
+      throw new Error(data?.error||"El servidor no confirmó el guardado");
+    }
+  }catch(err){
+    console.warn("GDrive sync error:",err);
+    if(el){el.textContent="⚠️ Sin Drive";el.style.color="var(--amber)";}
+    showToast("⚠️ Drive: "+err.message);
+  }finally{
+    _syncInProgress=false;
+    setTimeout(()=>{
+      if(el){el.textContent="☁️ Drive";el.style.color="var(--muted)";}
+    },4000);
+  }
+}
+
+// Cargar datos desde Google Drive (GET) al inicio
+async function gdriveLoad(){
+  const el=document.getElementById("sync-status");
+  if(el){el.textContent="⏳ Cargando...";el.style.color="var(--blue)";}
+  try{
+    showToast("⏳ Conectando con Google Drive...");
+    const url=GDRIVE_URL+"?action=load&ts="+Date.now();
+    const res=await fetch(url,{method:"GET",mode:"cors"});
+    if(!res.ok)throw new Error("HTTP "+res.status);
+    const data=await res.json();
+
+    // Si el servidor responde pero ok es false → error del servidor
+    if(data&&data.ok===false){
+      throw new Error(data.error||"Error en el servidor");
+    }
+
+    // Si ok===true y hay payload con datos → cargar
+    if(data&&data.ok===true&&data.payload&&Object.keys(data.payload).length>0){
+      Object.entries(data.payload).forEach(([pid,pdata])=>{
+        if(pdata&&typeof pdata==="object"&&!Array.isArray(pdata)){
+          localStorage.setItem(`${KEY_BASE}_${pid}`,JSON.stringify(pdata));
+        }
+      });
+      S=ACTIVE_PROFILE==="global"?loadGlobalState():loadState();
+      render();
+      if(el){el.textContent="✅ Drive OK";el.style.color="var(--green)";}
+      showToast("✅ ¡Datos cargados desde Drive!");
+      setTimeout(()=>{
+        if(el){el.textContent="☁️ Drive";el.style.color="var(--muted)";}
+      },4000);
+      return true;
+    }
+
+    // ok===true pero payload null o vacío → primera vez, sin datos en Drive
+    // No es un error, simplemente arrancamos con datos locales
+    if(el){el.textContent="☁️ Drive";el.style.color="var(--muted)";}
+    showToast("📭 Drive conectado — sin datos guardados aún");
+
+  }catch(err){
+    console.warn("GDrive load error:",err);
+    if(el){el.textContent="⚠️ Sin Drive";el.style.color="var(--amber)";}
+    // No mostramos error crítico — la app sigue funcionando con datos locales
+    showToast("📱 Usando datos locales ("+err.message+")");
+    setTimeout(()=>{
+      if(el){el.textContent="☁️ Drive";el.style.color="var(--muted)";}
+    },5000);
+  }
+  return false;
+}
 const KEY_BASE="portfolio_js_v2"; // nueva versión de schema
 
 let ACTIVE_PROFILE=localStorage.getItem("active_profile")||"jorge";
@@ -243,15 +499,29 @@ const oldProfileKey=(pid)=>`portfolio_js_v1_${pid}`;
 function uid(){return"i"+Date.now()+Math.random().toString(36).slice(2,6);}
 function today(){return new Date().toISOString().slice(0,10);}
 function platBy(id){
-  // Primero buscar en plataformas base
-  const base=PLATS.find(p=>p.id===id);
-  if(base)return base;
-  // Luego en personalizadas (si S ya existe)
-  if(typeof S!=="undefined"&&S?.customPlatforms){
-    const custom=S.customPlatforms.find(p=>p.id===id);
-    if(custom)return custom;
-  }
-  return{name:id,emoji:"❓",color:"#aaa",base:"USD",tipo:"?"};
+  const plats=getPlats();
+  const found=plats.find(p=>p.id===id);
+  if(found)return found;
+  return{id,name:id,emoji:"❓",color:"#aaa",base:"USD",tipo:"?"};
+}
+
+function platTieneSaldo(platId){
+  let p;
+  try{p=S?.platforms?.[platId];}catch(e){return false;}
+  if(!p)return false;
+  const liq=(p.liquidity?.eur||0)+(p.liquidity?.usd||0);
+  if(liq>0.01)return true;
+  if((p.extras||[]).length>0)return true;
+  return Object.values(p.subs||{}).some(sub=>(sub.assets||[]).length>0);
+}
+
+// Generador de id único para plataformas custom
+function generatePlatId(name){
+  const base=name.toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,12)||"plat";
+  let id=base,n=1;
+  const existing=getPlats().map(p=>p.id);
+  while(existing.includes(id)){id=base+n;n++;}
+  return id;
 }
 function parseDec(v){
   if(v==null||v==="")return 0;
@@ -340,110 +610,76 @@ function ps(v){return v>=0?"+":" ";}
 // Extra:    {id, simbolo, nombre, unidades, valorUnitario, moneda, tipo, fecha}
 //   tipo ∈ "staking" | "cashback" | "airdrop" | "interés" | "dividendo" | "stockperk" | "otro"
 
+// Bucket de subcuenta: solo activos
 function emptyBucket(){
-  return{liquidity:{eur:0,usd:0},assets:[],extras:[]};
+  return{assets:[]};
+}
+// Bucket de plataforma completo (nivel raíz)
+function emptyPlatBucket(){
+  return{liquidity:{eur:0,usd:0},extras:[]};
 }
 function getPlatSubs(platId){
-  if(platId==="cdc")return CDC_SUBS;
-  if(platId==="bingx")return BINGX_SUBS;
-  return null;
+  // Compatibilidad con código viejo, pero ahora getSubsFor es la fuente real
+  return getSubsFor(platId);
 }
-// Encuentra el nombre de una sub-cuenta dado su id (busca en todas las subs conocidas)
+// Encuentra el nombre de una sub-cuenta dado su id
 function findSubName(subId){
   if(!subId)return"";
-  const allSubs=[...CDC_SUBS,...BINGX_SUBS];
-  return(allSubs.find(s=>s.id===subId)||{}).name||subId;
+  const all=[...STANDARD_SUBS,...OPTIONAL_SUBS];
+  return(all.find(s=>s.id===subId)||{}).name||subId;
 }
 
+// Nueva estructura: {liquidity, extras, subs:{spot:{assets:[]}, futuros:{assets:[]}}}
 function emptyPlatform(platId){
-  const subs=getPlatSubs(platId);
-  if(subs){
-    return{subs:Object.fromEntries(subs.map(s=>[s.id,emptyBucket()]))};
-  }
-  return emptyBucket();
+  const subs=getSubsFor(platId);
+  return{
+    liquidity:{eur:0,usd:0},
+    extras:[],
+    subs:Object.fromEntries(subs.map(s=>[s.id,{assets:[]}]))
+  };
 }
 function emptyPlatforms(){
-  return Object.fromEntries(PLATS.map(p=>[p.id,emptyPlatform(p.id)]));
+  return Object.fromEntries(getPlats().map(p=>[p.id,emptyPlatform(p.id)]));
 }
 
-// Acceso unificado: getBucket(platId, subId?) — nunca devuelve null
+// Acceso unificado — nueva estructura: plataforma tiene {liquidity,extras,subs}
+// - sin subId: devuelve plataforma completa (para liquidez/extras)
+// - con subId: devuelve la sub (para activos)
 function getBucket(state,platId,subId){
   const p=state.platforms?state.platforms[platId]:null;
-  if(!p)return emptyBucket();
-  if(p.subs)return p.subs[subId||"spot"]||emptyBucket();
+  if(!p)return{liquidity:{eur:0,usd:0},extras:[],assets:[],subs:{}};
+  if(subId){
+    // Compatibilidad: si la plat tiene subs (nuevo), devolver sub
+    if(p.subs)return p.subs[subId]||{assets:[]};
+    // Legacy: plat plana
+    return{assets:p.assets||[]};
+  }
   return p;
+}
+
+// Asegura estructura nueva por plataforma (migracion)
+function ensurePlatformSubs(platforms,platId){
+  if(!platforms[platId])return;
+  const subs=getSubsFor(platId);
+  const p=platforms[platId];
+  if(!p.subs){
+    platforms[platId]={liquidity:p.liquidity||{eur:0,usd:0},extras:p.extras||[],subs:{spot:{assets:p.assets||[]}}};
+  }else if(!p.liquidity){
+    platforms[platId]={liquidity:{eur:0,usd:0},extras:[],subs:p.subs};
+  }
+  subs.forEach(s=>{
+    if(!platforms[platId].subs[s.id])platforms[platId].subs[s.id]={assets:[]};
+  });
 }
 
 //================================================================
 // DATOS HISTÓRICOS DE JORGE — para migración inicial
 //================================================================
-const TR_JORGE_TXS_LEGACY={
-    "b7dcdb3f":{"date":"2026-01-08","type":"CARD_ORDERING_FEE","symbol":"EUR_CASH","name":"Comisión tarjeta","units":50,"amount":-50,"isCash":true},
-    "c3f8792b":{"date":"2026-01-08","type":"TRANSFER_INSTANT_INBOUND","symbol":"EUR_CASH","name":"Transferencia entrada","units":5000,"amount":5000,"isCash":true},
-    "932f7fb0":{"date":"2026-01-13","type":"BUY","symbol":"AMD","name":"AMD","units":5.297171,"cost":998.62267692},
-    "5ca9f104":{"date":"2026-01-14","type":"SELL","symbol":"AMD","name":"AMD","units":5.297171,"cost":982.94305076},
-    "fe6becd0":{"date":"2026-01-14","type":"BUY","symbol":"MTPLF","name":"Metaplanet","units":0.857988,"cost":2.89999944},
-    "f570a9d8":{"date":"2026-01-14","type":"BUY","symbol":"MTPLF","name":"Metaplanet","units":295,"cost":997.1},
-    "47b8193e":{"date":"2026-01-15","type":"BUY","symbol":"VKTX","name":"Viking Therapeutics","units":0.760972,"cost":22.97754954},
-    "3620d837":{"date":"2026-01-15","type":"BUY","symbol":"VKTX","name":"Viking Therapeutics","units":33,"cost":996.435},
-    "11dcf973":{"date":"2026-01-15","type":"BUY","symbol":"TSLA","name":"Tesla","units":0.0268,"cost":10.22688},
-    "574a94db":{"date":"2026-01-15","type":"STOCKPERK","symbol":"EUR_CASH","name":"Stockperk — Tesla","units":10.23,"amount":10.23,"isCash":true},
-    "e708f967":{"date":"2026-01-16","type":"BUY","symbol":"IBRX","name":"ImmunityBio","units":247.524752,"cost":970.049503088},
-    "6c6ca337":{"date":"2026-01-16","type":"SELL","symbol":"IBRX","name":"ImmunityBio","units":247.524752,"cost":1059.40593856},
-    "8d21cc72":{"date":"2026-01-21","type":"BUY","symbol":"MTPLF","name":"Metaplanet","units":0.597122,"cost":1.65402794},
-    "2c793c4f":{"date":"2026-01-21","type":"BUY","symbol":"MTPLF","name":"Metaplanet","units":3,"cost":8.31},
-    "c9431063":{"date":"2026-01-22","type":"BUY","symbol":"MSFT","name":"Microsoft","units":0.0262,"cost":9.98744},
-    "8efead99":{"date":"2026-01-22","type":"BUY","symbol":"AMZN","name":"Amazon.com","units":0.0504,"cost":10.066896},
-    "52be1079":{"date":"2026-01-22","type":"STOCKPERK","symbol":"EUR_CASH","name":"Stockperk — Amazon.com","units":10.07,"amount":10.07,"isCash":true},
-    "d3fa56a6":{"date":"2026-01-22","type":"STOCKPERK","symbol":"EUR_CASH","name":"Stockperk — Microsoft","units":9.99,"amount":9.99,"isCash":true},
-    "8206c615":{"date":"2026-01-23","type":"SELL","symbol":"MSFT","name":"Microsoft","units":0.0262,"cost":10.1132},
-    "1602337a":{"date":"2026-01-23","type":"SELL","symbol":"MTPLF","name":"Metaplanet","units":299,"cost":819.26},
-    "7255562d":{"date":"2026-01-23","type":"SELL","symbol":"MTPLF","name":"Metaplanet","units":0.45511,"cost":1.2470014},
-    "e84ab5e4":{"date":"2026-01-26","type":"SELL","symbol":"VKTX","name":"Viking Therapeutics","units":33,"cost":891.825},
-    "a2c109dd":{"date":"2026-01-26","type":"SELL","symbol":"VKTX","name":"Viking Therapeutics","units":0.760972,"cost":20.5652683},
-    "eeb39ad2":{"date":"2026-01-28","type":"BUY","symbol":"CLSK","name":"Cleanspark","units":355.871886,"cost":4005.33807693},
-    "3a720b54":{"date":"2026-01-29","type":"BUY","symbol":"CLSK","name":"Cleanspark","units":61.436672,"cost":649.99998976},
-    "969d0da0":{"date":"2026-01-30","type":"TRANSFER_INSTANT_INBOUND","symbol":"EUR_CASH","name":"Transferencia entrada","units":5000,"amount":5000,"isCash":true},
-    "f131ef0a":{"date":"2026-02-01","type":"INTEREST_PAYMENT","symbol":"EUR_CASH","name":"Interés sobre efectivo","units":4.84,"amount":4.84,"isCash":true},
-    "5a0b2db5":{"date":"2026-02-02","type":"SELL","symbol":"TSLA","name":"Tesla","units":0.0268,"cost":9.48854},
-    "7745596a":{"date":"2026-02-02","type":"SELL","symbol":"AMZN","name":"Amazon.com","units":0.0504,"cost":10.4328},
-    "94825b7e":{"date":"2026-02-09","type":"BUY","symbol":"MSFT","name":"Microsoft","units":14.42377,"cost":4999.9998705},
-    "be395b21":{"date":"2026-03-01","type":"INTEREST_PAYMENT","symbol":"EUR_CASH","name":"Interés sobre efectivo","units":2.33,"amount":2.33,"isCash":true},
-    "81cf1c63":{"date":"2026-03-02","type":"TRANSFER_INSTANT_INBOUND","symbol":"EUR_CASH","name":"Transferencia entrada","units":5000,"amount":5000,"isCash":true},
-    "4ef7f830":{"date":"2026-03-02","type":"BUY","symbol":"MSFT","name":"Microsoft","units":14.937637,"cost":5089.99980775},
-    "bc96f8a5":{"date":"2026-03-04","type":"TRANSFER_INSTANT_INBOUND","symbol":"EUR_CASH","name":"Transferencia entrada","units":5000,"amount":5000,"isCash":true},
-    "4e14f983":{"date":"2026-03-04","type":"BUY","symbol":"CLSK","name":"Cleanspark","units":547.324192,"cost":4954.378585984},
-    "f1e6890c":{"date":"2026-03-12","type":"DIVIDEND","symbol":"EUR_CASH","name":"Dividendo — Microsoft","units":11.34,"amount":11.34,"isCash":true},
-    "83071a9c":{"date":"2026-03-23","type":"BUY","symbol":"MSFT","name":"Microsoft","units":0.159614,"cost":52.9998287},
-    "e2b56c47":{"date":"2026-03-31","type":"TRANSFER_INSTANT_INBOUND","symbol":"EUR_CASH","name":"Transferencia entrada","units":1000,"amount":1000,"isCash":true},
-    "9ff2b664":{"date":"2026-04-01","type":"INTEREST_PAYMENT","symbol":"EUR_CASH","name":"Interés sobre efectivo","units":0.11,"amount":0.11,"isCash":true},
-    "fd6750f6":{"date":"2026-04-10","type":"SELL","symbol":"CLSK","name":"Cleanspark","units":0.63275,"cost":5.4479775},
-    "1a1c3d59":{"date":"2026-04-17","type":"SELL","symbol":"CLSK","name":"Cleanspark","units":964,"cost":9562.88}
-};
-const TR_JORGE_CAP_LEGACY=[
-  // Trade Republic
-  {id:"cap1",date:"2026-01-08",type:"in",amount:5000,concept:"Transferencia TR — enero",platform:"tr"},
-  {id:"cap2",date:"2026-01-30",type:"in",amount:5000,concept:"Transferencia TR — enero (2ª)",platform:"tr"},
-  {id:"cap3",date:"2026-03-02",type:"in",amount:5000,concept:"Transferencia TR — marzo",platform:"tr"},
-  {id:"cap4",date:"2026-03-04",type:"in",amount:5000,concept:"Transferencia TR — marzo (2ª)",platform:"tr"},
-  {id:"cap5",date:"2026-03-31",type:"in",amount:1000,concept:"Transferencia TR — marzo (3ª)",platform:"tr"},
-  // Crypto.com (capital aportado estimado)
-  {id:"cap6",date:"2026-01-01",type:"in",amount:11760.95,concept:"Capital Crypto.com Spot",platform:"cdc"},
-  {id:"cap7",date:"2026-01-01",type:"in",amount:3845.02,concept:"Capital CRO Staking (a precio compra)",platform:"cdc"},
-  {id:"cap8",date:"2026-01-01",type:"in",amount:1489.09,concept:"Capital Crypto.com Tarjeta",platform:"cdc"},
-  // BingX — Spot y Futuros separados
-  {id:"cap9a",date:"2026-01-01",type:"in",amount:6070.50,concept:"Capital BingX Spot (7119.25 USDT)",platform:"bingx"},
-  {id:"cap9b",date:"2026-01-01",type:"in",amount:2904.22,concept:"Capital BingX Futuros (3405.24 USDT)",platform:"bingx"},
-  // KuCoin
-  {id:"cap10",date:"2026-01-01",type:"in",amount:671.97,concept:"Capital KuCoin (788.08 USDT ÷ 1.1727)",platform:"kucoin"},
-  // Ledger
-  {id:"cap11",date:"2026-01-01",type:"in",amount:60411.50,concept:"Capital Ledger liq. (70843.12 USDT ÷ 1.1727)",platform:"ledger"},
-  {id:"cap12",date:"2026-01-01",type:"in",amount:101.43,concept:"Capital Ledger TRX (118.95 USDT ÷ 1.1727)",platform:"ledger"},
-  // Helium SOL
-  {id:"cap13",date:"2026-05-01",type:"in",amount:21.17,concept:"Capital Helium SOL (24.82 USDT ÷ 1.1727)",platform:"helium"},
-  // Margex
-  {id:"cap14",date:"2026-05-01",type:"in",amount:18.93,concept:"Capital Margex (22.20 USDT ÷ 1.1727)",platform:"margex"},
-];
+// ── DATOS HISTÓRICOS RESETEADOS A CERO ──
+// El usuario pidió arrancar limpio, sin transacciones ni capital precargados.
+// Si quieres restaurar los datos antiguos, importa un backup JSON v2.
+const TR_JORGE_TXS_LEGACY={};
+const TR_JORGE_CAP_LEGACY=[];
 
 
 //================================================================
@@ -559,10 +795,12 @@ function getBaseState(profileId){
   return{
     _profileId:profileId,
     _cleared:false,
-    _capOwned:profileId==="jorge",
+    _capOwned:false,
+    _v_2026_reset:true,
     moneda:"EUR",tab:"resumen",periodo:"Total",
+    platsList:[...DEFAULT_PLATS], // lista de plataformas activas (editable por usuario)
     platforms:emptyPlatforms(),
-    capitalMovements:profileId==="jorge"?[...TR_JORGE_CAP_LEGACY]:[],
+    capitalMovements:[],
     realizedSales:[],
     objetivos:[],
     portfolioSnapshots:[],
@@ -576,95 +814,8 @@ function getBaseState(profileId){
 // DATOS REALES JORGE — Mayo 2026
 // ================================================================
 function getJorgeInitialPlatforms(){
-  const p=emptyPlatforms();
-  const uid2=()=>"j"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-
-  // ── TRADE REPUBLIC ──────────────────────────────────────────
-  // Liquidez
-  p.tr.liquidity.eur=2572.66;
-
-  // MSFT: 30.2133 uds, compra 343.69€, actual 351.57€ (beneficio 2.35%)
-  p.tr.assets.push({
-    id:uid2(),nombre:"Microsoft",simbolo:"MSFT",
-    unidades:30.2133,precioMedio:343.69,precioActual:351.57,
-    moneda:"EUR",fecha:"2026-02-09"
-  });
-
-  // Critical Metals: 912.2083 uds, compra 10.80€, actual 10.64€ (-1.49%)
-  p.tr.assets.push({
-    id:uid2(),nombre:"Critical Metals",simbolo:"CRTM",
-    unidades:912.2083,precioMedio:10.80,precioActual:10.64,
-    moneda:"EUR",fecha:"2026-03-04"
-  });
-
-  // Intereses TR (13€ — informativo como extra)
-  p.tr.extras.push({
-    id:uid2(),nombre:"Intereses Trade Republic",simbolo:"EUR",
-    tipo:"interés",unidades:1,valorUnitario:13.00,moneda:"EUR",fecha:"2026-04-01"
-  });
-
-  // ── CRYPTO.COM SPOT ─────────────────────────────────────────
-  // Liquidez en euros
-  p.cdc.subs.spot.liquidity.eur=11760.95;
-
-  // ── CRYPTO.COM STAKING ──────────────────────────────────────
-  // CRO: 63295.9 uds, P.compra 0.0608€, actual 0.0587€ → -3.48%
-  p.cdc.subs.stake.assets.push({
-    id:uid2(),nombre:"Cronos",simbolo:"CRO",
-    unidades:63295.9,precioMedio:0.0608,precioActual:0.0587,
-    moneda:"EUR",fecha:"2026-01-01"
-  });
-
-  // Ganancias históricas acumuladas de staking CRO: 508.16€ (informativo)
-  p.cdc.subs.stake.extras.push({
-    id:uid2(),nombre:"Staking CRO — acumulado histórico",simbolo:"CRO",
-    tipo:"staking",unidades:1,valorUnitario:508.16,moneda:"EUR",fecha:"2026-05-01"
-  });
-
-  // ── CRYPTO.COM TARJETA ──────────────────────────────────────
-  // Saldo tarjeta
-  p.cdc.subs.card.liquidity.eur=1489.09;
-
-  // Cargos mensuales recurrentes: Spotify 20.99€ y Netflix 13.99€
-  p.cdc.subs.card.extras.push({
-    id:uid2(),nombre:"Spotify — cargo mensual",simbolo:"EUR",
-    tipo:"otro",unidades:1,valorUnitario:-20.99,moneda:"EUR",fecha:"2026-05-01"
-  });
-  p.cdc.subs.card.extras.push({
-    id:uid2(),nombre:"Netflix — cargo mensual",simbolo:"EUR",
-    tipo:"otro",unidades:1,valorUnitario:-13.99,moneda:"EUR",fecha:"2026-05-01"
-  });
-
-  // ── BINGX ────────────────────────────────────────────────────
-  // BingX tiene Spot y Futuros como sub-cuentas separadas
-  p.bingx.subs.spot.liquidity.usd=7119.25;
-  p.bingx.subs.futuros.liquidity.usd=3405.24;
-
-  // ── KUCOIN ───────────────────────────────────────────────────
-  p.kucoin.liquidity.usd=788.08;
-
-  // ── LEDGER ───────────────────────────────────────────────────
-  p.ledger.liquidity.usd=70843.12;
-
-  // TRX: 351.9231 uds, precio 0.338 USDT, valor 118.95 USDT
-  p.ledger.assets.push({
-    id:uid2(),nombre:"Tron",simbolo:"TRX",
-    unidades:351.9231,precioMedio:0.3380,precioActual:0.3380,
-    moneda:"USD",fecha:"2026-05-01"
-  });
-
-  // ── HELIUM (SOL) ─────────────────────────────────────────────
-  // 0.295476 SOL, entrada 84 USDT, actual 84.37 USDT
-  p.helium.assets.push({
-    id:uid2(),nombre:"Solana",simbolo:"SOL",
-    unidades:0.295476,precioMedio:84.00,precioActual:84.37,
-    moneda:"USD",fecha:"2026-05-01"
-  });
-
-  // ── MARGEX ───────────────────────────────────────────────────
-  p.margex.liquidity.usd=22.20;
-
-  return p;
+  // RESET TOTAL: el usuario empezó desde cero. Devuelve plataformas vacías.
+  return emptyPlatforms();
 }
 
 function loadState(){
@@ -675,17 +826,17 @@ function loadState(){
     const raw=localStorage.getItem(profileKey());
     if(raw){
       const s=JSON.parse(raw);
-      // Si los datos son de la demo antigua (v_mayo_2026 no está seteado), resetear
-      if(ACTIVE_PROFILE==="jorge"&&!s._v_mayo2026){
+      // RESET TOTAL 2026: si los datos no tienen el flag de reset 2026, vaciar todo
+      if(!s._v_2026_reset){
         const base=getBaseState(ACTIVE_PROFILE);
-        base.platforms=getJorgeInitialPlatforms()||emptyPlatforms();
-        base._v_mayo2026=true;
+        base._v_2026_reset=true;
         localStorage.setItem(profileKey(),JSON.stringify(base));
         return base;
       }
       const base=getBaseState(ACTIVE_PROFILE);
-      return{...base,...s,
+      const merged={...base,...s,
         platforms:s.platforms||emptyPlatforms(),
+        platsList:s.platsList||[...DEFAULT_PLATS],
         capitalMovements:s.capitalMovements||base.capitalMovements,
         realizedSales:s.realizedSales||[],
         objetivos:s.objetivos||[],
@@ -694,39 +845,65 @@ function loadState(){
         capForm:{...base.capForm,...(s.capForm||{})},
         fotoState:{...base.fotoState,status:"idle",previewUrl:null,result:null},
       };
+      // Migrar y asegurar estructura nueva: {liquidity, extras, subs:{spot:{assets}, futuros:{assets}}}
+      merged.platsList.forEach(plat=>{
+        const pid=plat.id;
+        const subs=[...STANDARD_SUBS,...OPTIONAL_SUBS.filter(s=>(plat.enabledSubs||[]).includes(s.id))];
+        if(!merged.platforms[pid]){
+          // Plataforma nueva
+          merged.platforms[pid]=emptyPlatform(pid);
+        }else{
+          const p=merged.platforms[pid];
+          // MIGRACIÓN: estructura antigua con subs que tienen liquidez propia
+          if(p.subs&&Object.values(p.subs).some(b=>b.liquidity||b.extras)){
+            const aggLiq={eur:0,usd:0};const aggExtras=[];const newSubs={};
+            Object.entries(p.subs).forEach(([sid,sub])=>{
+              if(sid==="extras")return; // sub "extras" era un error
+              aggLiq.eur+=(sub.liquidity?.eur||0);
+              aggLiq.usd+=(sub.liquidity?.usd||0);
+              aggExtras.push(...(sub.extras||[]));
+              newSubs[sid]={assets:sub.assets||[]};
+            });
+            merged.platforms[pid]={
+              liquidity:{eur:aggLiq.eur+(p.liquidity?.eur||0),usd:aggLiq.usd+(p.liquidity?.usd||0)},
+              extras:[...(p.extras||[]),...aggExtras],
+              subs:newSubs
+            };
+          }else if(!p.subs){
+            // Estructura muy antigua (plana)
+            merged.platforms[pid]={
+              liquidity:p.liquidity||{eur:0,usd:0},
+              extras:p.extras||[],
+              subs:{spot:{assets:p.assets||[]},futuros:{assets:[]}}
+            };
+          }else if(!p.liquidity){
+            // Tiene subs pero sin liquidez en raíz: añadir liquidity y extras
+            merged.platforms[pid]={
+              liquidity:{eur:0,usd:0},
+              extras:[],
+              subs:p.subs
+            };
+          }
+          // Asegurar que existen todas las subs requeridas
+          subs.forEach(s=>{
+            if(!merged.platforms[pid].subs[s.id])merged.platforms[pid].subs[s.id]={assets:[]};
+          });
+          // Limpiar sub "extras" si quedó del modelo antiguo
+          if(merged.platforms[pid].subs&&merged.platforms[pid].subs.extras){
+            const extLiq=merged.platforms[pid].subs.extras;
+            if(extLiq.extras&&extLiq.extras.length){
+              merged.platforms[pid].extras=[...(merged.platforms[pid].extras||[]),...extLiq.extras];
+            }
+            delete merged.platforms[pid].subs.extras;
+          }
+        }
+      });
+      return merged;
     }
 
-    // ¿Existe v1? Migrar
-    const oldRaw=localStorage.getItem(oldProfileKey(ACTIVE_PROFILE));
-    if(oldRaw){
-      const old=JSON.parse(oldRaw);
-      const base=getBaseState(ACTIVE_PROFILE);
-      if(old._cleared){
-        // Estado limpio explícito en v1 → mantener limpio en v2
-        const s={...base,_cleared:true,_capOwned:true,
-          platforms:emptyPlatforms(),capitalMovements:[],realizedSales:[],objetivos:[]};
-        localStorage.setItem(profileKey(),JSON.stringify(s));
-        return s;
-      }
-      const platforms=migrateOldData(old)||emptyPlatforms();
-      const s={...base,
-        platforms,
-        capitalMovements:old._capOwned?(old.capitalMovements||[]):base.capitalMovements,
-        _capOwned:!!old._capOwned,
-        realizedSales:old.realizedSales||[],
-        objetivos:old.objetivos||[],
-        moneda:old.moneda||"EUR",
-      };
-      localStorage.setItem(profileKey(),JSON.stringify(s));
-      return s;
-    }
-
-    // Nuevo perfil: si es Jorge, cargar datos demo migrados
+    // Sin datos previos: estado base limpio
     const base=getBaseState(ACTIVE_PROFILE);
-    if(ACTIVE_PROFILE==="jorge"){
-      base.platforms=getJorgeInitialPlatforms()||emptyPlatforms();
-      base._v_mayo2026=true;
-    }
+    base._v_2026_reset=true;
     return base;
   }catch(e){
     console.warn("loadState error:",e);
@@ -748,26 +925,41 @@ function loadGlobalState(){
   const base=getBaseState("global");
   base._isGlobal=true;
 
-  // Combinar plataformas: sumar liquidez, agregar assets/extras con _owner
-  const platforms=emptyPlatforms();
-  PLATS.forEach(plat=>{
-    const merge=(target,src,owner)=>{
-      target.liquidity.eur+=src.liquidity.eur||0;
-      target.liquidity.usd+=src.liquidity.usd||0;
-      (src.assets||[]).forEach(a=>target.assets.push({...a,_owner:owner}));
-      (src.extras||[]).forEach(e=>target.extras.push({...e,_owner:owner}));
+  // Combinar plataformas: usar la unión de plats de Jorge y Raquel
+  const allPlatIds=new Set([...(j.platsList||[]).map(p=>p.id),...(r.platsList||[]).map(p=>p.id)]);
+  const allPlats=[...DEFAULT_PLATS];
+  // Añadir plats custom de cualquier perfil
+  [j,r].forEach(prof=>{(prof.platsList||[]).forEach(p=>{if(!allPlats.find(x=>x.id===p.id))allPlats.push(p);});});
+  base.platsList=allPlats;
+
+  // Merge nueva estructura: liquidez y extras a nivel plataforma, subs solo assets
+  const platforms={};
+  allPlats.forEach(plat=>{
+    const subsJ=(j.platsList?.find(p=>p.id===plat.id)?.enabledSubs)||[];
+    const subsR=(r.platsList?.find(p=>p.id===plat.id)?.enabledSubs)||[];
+    const enabled=[...new Set([...subsJ,...subsR])];
+    const subs=[...STANDARD_SUBS,...OPTIONAL_SUBS.filter(s=>enabled.includes(s.id))];
+    const pj=j.platforms?.[plat.id]||emptyPlatform(plat.id);
+    const pr=r.platforms?.[plat.id]||emptyPlatform(plat.id);
+
+    // Sumar liquidez de ambos perfiles
+    const liq={
+      eur:(pj.liquidity?.eur||0)+(pr.liquidity?.eur||0),
+      usd:(pj.liquidity?.usd||0)+(pr.liquidity?.usd||0),
     };
-    if(plat.hasSubs){
-      const subs=getPlatSubs(plat.id)||CDC_SUBS;
-      subs.forEach(sub=>{
-        const tgt=platforms[plat.id].subs[sub.id];
-        merge(tgt,j.platforms[plat.id]?.subs?.[sub.id]||emptyBucket(),"Jorge");
-        merge(tgt,r.platforms[plat.id]?.subs?.[sub.id]||emptyBucket(),"Raquel");
-      });
-    }else{
-      merge(platforms[plat.id],j.platforms[plat.id]||emptyBucket(),"Jorge");
-      merge(platforms[plat.id],r.platforms[plat.id]||emptyBucket(),"Raquel");
-    }
+    // Combinar extras
+    const extras=[
+      ...(pj.extras||[]).map(e=>({...e,_owner:"Jorge"})),
+      ...(pr.extras||[]).map(e=>({...e,_owner:"Raquel"})),
+    ];
+    // Combinar activos por sub
+    const subsObj={};
+    subs.forEach(sub=>{
+      const assetsJ=(pj.subs?.[sub.id]?.assets||[]).map(a=>({...a,_owner:"Jorge"}));
+      const assetsR=(pr.subs?.[sub.id]?.assets||[]).map(a=>({...a,_owner:"Raquel"}));
+      subsObj[sub.id]={assets:[...assetsJ,...assetsR]};
+    });
+    platforms[plat.id]={liquidity:liq,extras,subs:subsObj};
   });
 
   return{
@@ -799,9 +991,9 @@ function saveState(){
       fotoState:{platId:S.fotoState?.platId||"auto",status:"idle",result:null,previewUrl:null,addedMsg:""}
     };
     localStorage.setItem(profileKey(),JSON.stringify(s));
-    const t=document.getElementById("toast");
-    if(t){t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),2000);}
   }catch(e){console.warn(e);}
+  // Sync a Drive en background (no bloquea la UI)
+  if(typeof gdriveSync==="function")setTimeout(()=>gdriveSync("sync"),300);
 }
 
 function switchProfile(id){
@@ -818,53 +1010,54 @@ function switchProfile(id){
 //================================================================
 function emptyBucketSummary(){
   return{liqEur:0,liqEurOnly:0,liqUsdOnly:0,assetsInv:0,assetsCur:0,
-    assetsPnl:0,assetsPct:0,extrasVal:0,total:0,subs:{
-      spot:{liqEur:0,liqEurOnly:0,liqUsdOnly:0,assetsInv:0,assetsCur:0,assetsPnl:0,assetsPct:0,extrasVal:0,total:0},
-      stake:{liqEur:0,liqEurOnly:0,liqUsdOnly:0,assetsInv:0,assetsCur:0,assetsPnl:0,assetsPct:0,extrasVal:0,total:0},
-      card:{liqEur:0,liqEurOnly:0,liqUsdOnly:0,assetsInv:0,assetsCur:0,assetsPnl:0,assetsPct:0,extrasVal:0,total:0},
-    }};
+    assetsPnl:0,assetsPct:0,extrasVal:0,total:0,subs:{}};
 }
 
-function bucketSummary(b){
-  if(!b)return emptyBucketSummary();
-  const liqEur=(b.liquidity?.eur||0)+usdToEur(b.liquidity?.usd||0);
+// Resumen de una subcuenta de activos (solo assets, sin liquidez propia)
+function subSummary(sub){
+  if(!sub)return{assetsInv:0,assetsCur:0,assetsPnl:0,assetsPct:0,total:0};
   let assetsInv=0,assetsCur=0;
-  (b.assets||[]).forEach(a=>{
+  (sub.assets||[]).forEach(a=>{
     assetsInv+=toEUR(a.unidades*a.precioMedio,a.moneda);
     assetsCur+=toEUR(a.unidades*a.precioActual,a.moneda);
   });
-  let extrasVal=0;
-  (b.extras||[]).forEach(e=>{
-    extrasVal+=toEUR(e.unidades*(e.valorUnitario||0),e.moneda);
+  return{assetsInv,assetsCur,assetsPnl:assetsCur-assetsInv,assetsPct:pct(assetsCur,assetsInv),total:assetsCur};
+}
+
+// Alias para compatibilidad con código antiguo
+function bucketSummary(b){
+  if(!b)return emptyBucketSummary();
+  // Si tiene sub (nueva estructura), calcular como plataforma
+  if(b.subs!==undefined&&b.liquidity!==undefined)return platformSummary_fromObj(b);
+  // Sub: solo assets
+  const s=subSummary(b);
+  return{...emptyBucketSummary(),...s,subs:{}};
+}
+
+// Calcula el resumen de un objeto plataforma (nueva estructura)
+function platformSummary_fromObj(p){
+  const liqEur=(p.liquidity?.eur||0)+usdToEur(p.liquidity?.usd||0);
+  let assetsInv=0,assetsCur=0;
+  const subs={};
+  Object.entries(p.subs||{}).forEach(([sid,sub])=>{
+    const s=subSummary(sub);
+    subs[sid]=s;
+    assetsInv+=s.assetsInv;assetsCur+=s.assetsCur;
   });
+  let extrasVal=0;
+  (p.extras||[]).forEach(e=>{extrasVal+=toEUR(e.unidades*(e.valorUnitario||0),e.moneda);});
+  const assetsPnl=assetsCur-assetsInv;
   return{
-    liqEur,liqEurOnly:b.liquidity?.eur||0,liqUsdOnly:b.liquidity?.usd||0,
-    assetsInv,assetsCur,assetsPnl:assetsCur-assetsInv,assetsPct:pct(assetsCur,assetsInv),
-    extrasVal,total:liqEur+assetsCur+extrasVal,subs:{},
+    liqEur,liqEurOnly:p.liquidity?.eur||0,liqUsdOnly:p.liquidity?.usd||0,
+    assetsInv,assetsCur,assetsPnl,assetsPct:pct(assetsCur,assetsInv),
+    extrasVal,total:liqEur+assetsCur+extrasVal,subs,
   };
 }
 
 function platformSummary(platId){
   const p=S.platforms?S.platforms[platId]:null;
   if(!p)return emptyBucketSummary();
-  if(p.subs){
-    let agg={liqEur:0,liqEurOnly:0,liqUsdOnly:0,assetsInv:0,assetsCur:0,extrasVal:0};
-    const subs={};
-    Object.entries(p.subs).forEach(([sid,b])=>{
-      const s=bucketSummary(b||null);
-      subs[sid]=s;
-      agg.liqEur+=s.liqEur;agg.liqEurOnly+=s.liqEurOnly;agg.liqUsdOnly+=s.liqUsdOnly;
-      agg.assetsInv+=s.assetsInv;agg.assetsCur+=s.assetsCur;agg.extrasVal+=s.extrasVal;
-    });
-    const knownSubs=getPlatSubs(platId)||CDC_SUBS;
-    knownSubs.forEach(sub=>{if(!subs[sub.id])subs[sub.id]=emptyBucketSummary();});
-    agg.assetsPnl=agg.assetsCur-agg.assetsInv;
-    agg.assetsPct=pct(agg.assetsCur,agg.assetsInv);
-    agg.total=agg.liqEur+agg.assetsCur+agg.extrasVal;
-    agg.subs=subs;
-    return agg;
-  }
-  return{...bucketSummary(p),subs:{}};
+  return platformSummary_fromObj(p);
 }
 
 function capitalStats(){
@@ -874,13 +1067,6 @@ function capitalStats(){
   return{totalIn,totalOut,netCapital:totalIn-totalOut};
 }
 
-// getPlats: base + personalizadas
-function getPlats(){
-  const overrides=(typeof S!=="undefined"&&S?.platOverrides)||{};
-  const base=PLATS.map(p=>overrides[p.id]?{...p,...overrides[p.id]}:p);
-  const custom=(typeof S!=="undefined"&&S?.customPlatforms)||[];
-  return[...base,...custom];
-}
 const PRESET_COLORS=["#16a34a","#d97706","#3b82f6","#8b5cf6","#f97316","#06b6d4","#ec4899","#64748b","#dc2626","#0891b2"];
 function randomColor(){return PRESET_COLORS[Math.floor(Math.random()*PRESET_COLORS.length)];}
 
@@ -902,34 +1088,29 @@ function totals(){
   };
 }
 
-// Listado plano de todos los assets (para pestaña Activos)
+// Activos: iteramos subs de cada plataforma
 function allAssets(){
   const list=[];
   getPlats().forEach(plat=>{
     const p=S.platforms?S.platforms[plat.id]:null;
     if(!p)return;
-    if(p.subs){
-      Object.entries(p.subs).forEach(([sid,b])=>{
-        (b.assets||[]).forEach(a=>list.push({...a,plat,subId:sid}));
-      });
-    }else{
-      (p.assets||[]).forEach(a=>list.push({...a,plat}));
+    Object.entries(p.subs||{}).forEach(([sid,sub])=>{
+      (sub.assets||[]).forEach(a=>list.push({...a,plat,subId:sid}));
+    });
+    // Compatibilidad: datos legacy planos
+    if(!p.subs&&p.assets){
+      (p.assets||[]).forEach(a=>list.push({...a,plat,subId:"spot"}));
     }
   });
   return list;
 }
+// Extras: nivel de plataforma (no de sub)
 function allExtras(){
   const list=[];
   getPlats().forEach(plat=>{
     const p=S.platforms?S.platforms[plat.id]:null;
     if(!p)return;
-    if(p.subs){
-      Object.entries(p.subs).forEach(([sid,b])=>{
-        (b.extras||[]).forEach(e=>list.push({...e,plat,subId:sid}));
-      });
-    }else{
-      (p.extras||[]).forEach(e=>list.push({...e,plat}));
-    }
+    (p.extras||[]).forEach(e=>list.push({...e,plat}));
   });
   return list;
 }
@@ -939,51 +1120,123 @@ function allExtras(){
 // OPERACIONES — los flujos que mueven dinero entre cajones
 //================================================================
 
-// Ingresar liquidez (entrada de dinero al cajón Liquidez)
-function opIngresarLiquidez(platId,subId,monedaPago,cantidad,concepto){
-  const b=getBucket(S,platId,subId);
-  if(!b)return false;
-  if(monedaPago==="EUR")b.liquidity.eur+=cantidad;
-  else b.liquidity.usd+=cantidad;
-  return true;
+// ── Gestión de plataformas (añadir, eliminar, activar subs opcionales) ──
+function opAddPlatform(opts){
+  // opts: {name, tipo?, base?, color?, emoji?}
+  if(!opts.name||!opts.name.trim())return{ok:false,error:"Indica un nombre"};
+  const id=generatePlatId(opts.name.trim());
+  const usedColors=getPlats().map(p=>p.color);
+  const usedEmojis=getPlats().map(p=>p.emoji);
+  const color=opts.color||NEW_PLAT_COLORS.find(c=>!usedColors.includes(c))||NEW_PLAT_COLORS[0];
+  const emoji=opts.emoji||NEW_PLAT_EMOJIS.find(e=>!usedEmojis.includes(e))||"💼";
+  const newPlat={
+    id,
+    name:opts.name.trim(),
+    tipo:opts.tipo||"Personalizada",
+    emoji,
+    base:opts.base||"USD",
+    color,
+    enabledSubs:[], // opcionales activadas
+    custom:true,
+  };
+  if(!S.platsList)S.platsList=[...DEFAULT_PLATS];
+  S.platsList.push(newPlat);
+  // Crear bucket con subs estándar
+  S.platforms[id]=emptyPlatform(id);
+  return{ok:true,plat:newPlat};
 }
 
-// Retirar liquidez
-function opRetirarLiquidez(platId,subId,monedaPago,cantidad){
-  const b=getBucket(S,platId,subId);
-  if(!b)return{ok:false,error:"Plataforma no encontrada"};
-  const disponible=monedaPago==="EUR"?b.liquidity.eur:b.liquidity.usd;
-  if(cantidad>disponible+1e-9)return{ok:false,error:`No hay tanta liquidez. Disponible: ${fmt(disponible,monedaPago)}`};
-  if(monedaPago==="EUR")b.liquidity.eur-=cantidad;
-  else b.liquidity.usd-=cantidad;
+function opRemovePlatform(platId){
+  if(platTieneSaldo(platId))return{ok:false,error:"La plataforma tiene saldo (liquidez o activos). Traspasa los fondos antes de eliminarla."};
+  if(!S.platsList)S.platsList=[...DEFAULT_PLATS];
+  const idx=S.platsList.findIndex(p=>p.id===platId);
+  if(idx<0)return{ok:false,error:"Plataforma no encontrada"};
+  S.platsList.splice(idx,1);
+  delete S.platforms[platId];
   return{ok:true};
 }
 
-// Comprar activo (resta liquidez, suma activo)
+function opToggleSubAccount(platId,subId){
+  if(!S.platsList)S.platsList=[...DEFAULT_PLATS];
+  const plat=S.platsList.find(p=>p.id===platId);
+  if(!plat)return{ok:false};
+  if(!plat.enabledSubs)plat.enabledSubs=[];
+  const isStandard=STANDARD_SUBS.find(s=>s.id===subId);
+  if(isStandard)return{ok:false,error:"Las subcuentas estándar (Spot/Futuros/Extras) no se pueden desactivar"};
+
+  const platBucket=S.platforms[platId];
+  if(plat.enabledSubs.includes(subId)){
+    // Desactivar — solo si está vacía
+    const sub=platBucket?.subs?.[subId];
+    if(sub){
+      const liq=(sub.liquidity?.eur||0)+(sub.liquidity?.usd||0);
+      if(liq>0.01||(sub.assets||[]).length>0||(sub.extras||[]).length>0){
+        return{ok:false,error:"La subcuenta tiene saldo. Vacíala antes de desactivarla."};
+      }
+      delete platBucket.subs[subId];
+    }
+    plat.enabledSubs=plat.enabledSubs.filter(s=>s!==subId);
+  }else{
+    // Activar
+    plat.enabledSubs.push(subId);
+    if(platBucket?.subs)platBucket.subs[subId]=emptyBucket();
+  }
+  return{ok:true,activado:plat.enabledSubs.includes(subId)};
+}
+
+// Ingresar liquidez — SIEMPRE a nivel de plataforma (subId ignorado)
+function opIngresarLiquidez(platId,subId,monedaPago,cantidad,concepto){
+  const p=getBucket(S,platId,null); // nivel plataforma
+  if(!p)return false;
+  if(!p.liquidity)p.liquidity={eur:0,usd:0};
+  if(monedaPago==="EUR")p.liquidity.eur+=cantidad;
+  else p.liquidity.usd+=cantidad;
+  return true;
+}
+
+// Retirar liquidez — SIEMPRE de nivel de plataforma
+function opRetirarLiquidez(platId,subId,monedaPago,cantidad){
+  const p=getBucket(S,platId,null); // nivel plataforma
+  if(!p)return{ok:false,error:"Plataforma no encontrada"};
+  if(!p.liquidity)p.liquidity={eur:0,usd:0};
+  const disponible=monedaPago==="EUR"?(p.liquidity.eur||0):(p.liquidity.usd||0);
+  if(cantidad>disponible+1e-9)return{ok:false,error:`No hay tanta liquidez. Disponible: ${fmt(disponible,monedaPago)}`};
+  if(monedaPago==="EUR")p.liquidity.eur-=cantidad;
+  else p.liquidity.usd-=cantidad;
+  return{ok:true};
+}
+
+// Comprar activo: resta de liquidez de PLATAFORMA, suma a activos de la SUB
 function opComprar(platId,subId,opts){
-  // opts: {simbolo, nombre, unidades, precio, monedaPago, fecha}
-  const b=getBucket(S,platId,subId);
-  if(!b)return{ok:false,error:"Plataforma no encontrada"};
+  const plat=S.platforms?S.platforms[platId]:null;
+  if(!plat)return{ok:false,error:"Plataforma no encontrada"};
+  if(!plat.liquidity)plat.liquidity={eur:0,usd:0};
   const{simbolo,nombre,unidades,precio,monedaPago,fecha}=opts;
   const coste=unidades*precio;
-  const disp=monedaPago==="EUR"?b.liquidity.eur:b.liquidity.usd;
+  const disp=monedaPago==="EUR"?(plat.liquidity.eur||0):(plat.liquidity.usd||0);
   if(coste>disp+1e-6)return{ok:false,error:`Liquidez insuficiente. Necesitas ${fmt(coste,monedaPago)} y tienes ${fmt(disp,monedaPago)}`};
 
-  // Restar de liquidez
-  if(monedaPago==="EUR")b.liquidity.eur-=coste;
-  else b.liquidity.usd-=coste;
+  // Restar de liquidez de la plataforma
+  if(monedaPago==="EUR")plat.liquidity.eur-=coste;
+  else plat.liquidity.usd-=coste;
 
-  // Buscar si ya existe el activo (mismo símbolo+moneda) → promediar
-  const existing=b.assets.find(a=>a.simbolo.toUpperCase()===simbolo.toUpperCase()&&a.moneda===monedaPago);
+  // Añadir a activos de la sub
+  const realSubId=subId||"spot";
+  if(!plat.subs)plat.subs={};
+  if(!plat.subs[realSubId])plat.subs[realSubId]={assets:[]};
+  const sub=plat.subs[realSubId];
+  if(!sub.assets)sub.assets=[];
+
+  const existing=sub.assets.find(a=>a.simbolo.toUpperCase()===simbolo.toUpperCase()&&a.moneda===monedaPago);
   if(existing){
     const totalUnits=existing.unidades+unidades;
     const totalCost=existing.unidades*existing.precioMedio+coste;
     existing.unidades=totalUnits;
     existing.precioMedio=totalCost/totalUnits;
-    existing.precioActual=precio; // refrescar
+    existing.precioActual=precio;
     existing.fecha=fecha||today();
   }else{
-    b.assets.push({
+    sub.assets.push({
       id:uid(),simbolo:simbolo.toUpperCase(),nombre:nombre||simbolo,
       unidades,precioMedio:precio,precioActual:precio,
       moneda:monedaPago,fecha:fecha||today()
@@ -992,12 +1245,11 @@ function opComprar(platId,subId,opts){
   return{ok:true,coste};
 }
 
-// Vender activo (resta unidades, suma a liquidez)
+// Vender activo: quita de sub, suma a liquidez de PLATAFORMA
 function opVender(platId,subId,assetId,opts){
-  // opts: {unidadesVender, precioVenta, monedaCobro, fecha}
-  const b=getBucket(S,platId,subId);
-  if(!b)return{ok:false,error:"Plataforma no encontrada"};
-  const asset=b.assets.find(a=>a.id===assetId);
+  const b=getBucket(S,platId,subId||"spot");
+  if(!b)return{ok:false,error:"Subcuenta no encontrada"};
+  const asset=(b.assets||[]).find(a=>a.id===assetId);
   if(!asset)return{ok:false,error:"Activo no encontrado"};
   const{unidadesVender,precioVenta,monedaCobro,fecha}=opts;
   if(unidadesVender>asset.unidades+1e-9)return{ok:false,error:`Solo tienes ${fN(asset.unidades,6)} unidades`};
@@ -1006,9 +1258,13 @@ function opVender(platId,subId,assetId,opts){
   // Si moneda del asset es distinta, se asume conversión a la del cobro
   let importe=unidadesVender*precioVenta; // en monedaCobro
 
-  // Sumar a liquidez en moneda de cobro
-  if(monedaCobro==="EUR")b.liquidity.eur+=importe;
-  else b.liquidity.usd+=importe;
+  // Sumar a liquidez DE LA PLATAFORMA (no de la sub)
+  const plat4v=S.platforms?S.platforms[platId]:null;
+  if(plat4v){
+    if(!plat4v.liquidity)plat4v.liquidity={eur:0,usd:0};
+    if(monedaCobro==="EUR")plat4v.liquidity.eur+=importe;
+    else plat4v.liquidity.usd+=importe;
+  }
 
   // Registrar venta para Hacienda (en EUR)
   const proceedsEur=toEUR(importe,monedaCobro);
@@ -1027,7 +1283,7 @@ function opVender(platId,subId,assetId,opts){
     proceedsEur,costEur,gainEur:proceedsEur-costEur,
   });
 
-  // Actualizar/eliminar asset
+  // Actualizar/eliminar asset en la sub
   asset.unidades-=unidadesVender;
   if(asset.unidades<1e-9){
     b.assets=b.assets.filter(a=>a.id!==assetId);
@@ -1035,12 +1291,12 @@ function opVender(platId,subId,assetId,opts){
   return{ok:true,importe};
 }
 
-// Añadir extra (rendimiento gratis)
+// Añadir extra a nivel de PLATAFORMA (subId ignorado)
 function opAddExtra(platId,subId,opts){
-  // opts: {simbolo, nombre, unidades, valorUnitario, moneda, tipo, fecha}
-  const b=getBucket(S,platId,subId);
-  if(!b)return{ok:false,error:"Plataforma no encontrada"};
-  b.extras.push({
+  const plat=S.platforms?S.platforms[platId]:null;
+  if(!plat)return{ok:false,error:"Plataforma no encontrada"};
+  if(!plat.extras)plat.extras=[];
+  plat.extras.push({
     id:uid(),
     simbolo:(opts.simbolo||"EUR").toUpperCase(),
     nombre:opts.nombre||opts.simbolo||"Rendimiento",
@@ -1053,56 +1309,54 @@ function opAddExtra(platId,subId,opts){
   return{ok:true};
 }
 
-// Convertir extra a liquidez (cobrar/realizar el rendimiento)
+// Cobrar extra: busca en plataforma, suma a liquidez de plataforma
 function opCobrarExtra(platId,subId,extraId,monedaCobro){
-  const b=getBucket(S,platId,subId);
-  if(!b)return{ok:false};
-  const extra=b.extras.find(e=>e.id===extraId);
+  const plat=S.platforms?S.platforms[platId]:null;
+  if(!plat)return{ok:false};
+  if(!plat.extras)plat.extras=[];
+  const extra=plat.extras.find(e=>e.id===extraId);
   if(!extra)return{ok:false};
-  const valor=extra.unidades*extra.valorUnitario; // en extra.moneda
-  // Convertir a moneda de cobro si distinta
+  const valor=extra.unidades*extra.valorUnitario;
   let montoFinal=valor;
   if(extra.moneda!==monedaCobro){
     montoFinal=monedaCobro==="EUR"?toEUR(valor,extra.moneda):toUSD(valor,extra.moneda);
   }
-  if(monedaCobro==="EUR")b.liquidity.eur+=montoFinal;
-  else b.liquidity.usd+=montoFinal;
-  b.extras=b.extras.filter(e=>e.id!==extraId);
+  if(!plat.liquidity)plat.liquidity={eur:0,usd:0};
+  if(monedaCobro==="EUR")plat.liquidity.eur+=montoFinal;
+  else plat.liquidity.usd+=montoFinal;
+  plat.extras=plat.extras.filter(e=>e.id!==extraId);
   return{ok:true,monto:montoFinal};
 }
 
-// Eliminar asset/extra
 function opDelAsset(platId,subId,assetId){
-  const b=getBucket(S,platId,subId);
+  const b=getBucket(S,platId,subId||"spot");
   if(!b)return false;
-  b.assets=b.assets.filter(a=>a.id!==assetId);
+  b.assets=(b.assets||[]).filter(a=>a.id!==assetId);
   return true;
 }
 function opDelExtra(platId,subId,extraId){
-  const b=getBucket(S,platId,subId);
-  if(!b)return false;
-  b.extras=b.extras.filter(e=>e.id!==extraId);
+  const plat=S.platforms?S.platforms[platId]:null;
+  if(!plat)return false;
+  plat.extras=(plat.extras||[]).filter(e=>e.id!==extraId);
   return true;
 }
 
-// Actualizar precio actual de un asset
 function opUpdatePrice(platId,subId,assetId,newPrice){
-  const b=getBucket(S,platId,subId);
+  const b=getBucket(S,platId,subId||"spot");
   if(!b)return false;
-  const a=b.assets.find(x=>x.id===assetId);
+  const a=(b.assets||[]).find(x=>x.id===assetId);
   if(!a)return false;
   a.precioActual=newPrice;
   return true;
 }
 function opUpdateExtraValue(platId,subId,extraId,newValue){
-  const b=getBucket(S,platId,subId);
-  if(!b)return false;
-  const e=b.extras.find(x=>x.id===extraId);
+  const plat=S.platforms?S.platforms[platId]:null;
+  if(!plat)return false;
+  const e=(plat.extras||[]).find(x=>x.id===extraId);
   if(!e)return false;
   e.valorUnitario=newValue;
   return true;
 }
-
 
 //================================================================
 // MODAL HELPERS
@@ -1149,10 +1403,9 @@ function sc(l,v,s,color){
 //================================================================
 function openIngresarModal(platId,subId){
   const plat=platBy(platId);
-  const subTxt=subId?` · ${findSubName(subId)}`:"";
   modal({html:`
     <h3>💰 Ingresar liquidez</h3>
-    <p>Añadir efectivo a <b>${plat.emoji} ${plat.name}${subTxt}</b></p>
+    <p>Añadir efectivo a <b>${plat.emoji} ${plat.name}</b> (se añade a la liquidez general de la plataforma)</p>
     <div class="fi-row">
       <div class="fg" style="flex:0 0 100px"><label class="fl">Moneda *</label>
         <select id="m-moneda" class="fi"><option value="EUR">€ EUR</option><option value="USD">$ USD</option></select>
@@ -1215,7 +1468,7 @@ function openRetirarModal(platId,subId){
       <input id="m-concepto" type="text" class="fi" placeholder="ej: Retirada al banco"/>
     </div>
     <label style="display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted);margin-bottom:14px;cursor:pointer">
-      <input id="m-cap-link" type="checkbox" style="width:16px;height:16px;cursor:pointer"/>
+      <input id="m-cap-link" type="checkbox" checked style="width:16px;height:16px;cursor:pointer"/>
       Registrar también como retirada de capital total
     </label>
     <div class="mo-btns">
@@ -1252,7 +1505,16 @@ function openComprarModal(platId,subId){if(window._openComprarModal)window._open
 
 window.confirmarCompra=(platId,subId)=>{if(window.confirmarCompraNew)window.confirmarCompraNew(platId,subId);};
 
-function openVenderModal(platId,subId,assetId){if(window._openVenderModal)window._openVenderModal(platId,subId,assetId);}
+function openVenderModal(platId,subId,assetId){
+  if(window._openVenderModal)window._openVenderModal(platId,subId,assetId);
+  else{
+    // fallback directo
+    const b=getBucket(S,platId,subId||"spot");
+    const asset=(b.assets||[]).find(a=>a.id===assetId);
+    if(!asset){alert("Activo no encontrado");return;}
+    window.confirmarVentaNew=window.confirmarVentaNew||(()=>{});
+  }
+}
 
 window.setVTodo=(u)=>{if(window.setVTodoNew)window.setVTodoNew();};
 window.setVMitad=(u)=>{if(window.setVMitadNew)window.setVMitadNew();};
@@ -1288,10 +1550,18 @@ window.confirmarCobrarExtra=(platId,subId,extraId)=>{
   showToast(`✅ ${fmt(r.monto,m)} pasaron a Liquidez`);
 };
 
-function showToast(msg){
+function showToast(msg,type="ok"){
   const t=document.getElementById("toast");
-  if(t){t.textContent=msg;t.classList.add("show");
-    clearTimeout(t._t);t._t=setTimeout(()=>{t.classList.remove("show");t.textContent="✓ Guardado";},2500);}
+  if(!t)return;
+  t.textContent=msg;
+  t.className="toast show";
+  if(msg.startsWith("✅")||msg.startsWith("¡"))t.style.background="#16a34a";
+  else if(msg.startsWith("⚠️"))t.style.background="#d97706";
+  else if(msg.startsWith("❌"))t.style.background="#dc2626";
+  else if(msg.startsWith("⏳"))t.style.background="#1d4ed8";
+  else t.style.background="#1f2937";
+  clearTimeout(t._t);
+  t._t=setTimeout(()=>{t.classList.remove("show");},3000);
 }
 
 
@@ -1423,6 +1693,10 @@ function buildResumen(){
           <div class="n" style="font-size:14px;font-weight:700;word-break:break-all">${fC(d.sum.total)}</div>
           ${d.sum.assetsInv>0?`<div class="n ${pcl(d.sum.assetsPnl)}" style="font-size:11px;font-weight:600;margin-top:1px">${ps(d.sum.assetsPnl)}${fC(d.sum.assetsPnl)} (${ps(d.sum.assetsPct)}${fN(d.sum.assetsPct)}%)</div>`:""}
         </div>`:`<span style="font-size:11px;color:#d1d5db">Sin datos →</span>`}
+        ${ACTIVE_PROFILE!=="global"?`<div style="display:flex;flex-direction:column;gap:2px;flex-shrink:0">
+          <button onclick="event.stopPropagation();opMovePlatUp('${d.plat.id}')" style="font-size:11px;padding:2px 7px;border-radius:5px;border:1px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;line-height:1.4" title="Subir">↑</button>
+          <button onclick="event.stopPropagation();opMovePlatDown('${d.plat.id}')" style="font-size:11px;padding:2px 7px;border-radius:5px;border:1px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;line-height:1.4" title="Bajar">↓</button>
+        </div>`:""}
       </div>`).join("")}
     </div>
   </div>`;
@@ -1443,8 +1717,10 @@ function buildPlataformas(){
 function buildPlatformBlock(plat){
   const sum=platformSummary(plat.id);
   const isGlobal=ACTIVE_PROFILE==="global";
+  const platData=S.platforms?.[plat.id]||emptyPlatform(plat.id);
+  const opPlatArgs=JSON.stringify(plat.id);
 
-  // Cabecera con total
+  // ── CABECERA ─────────────────────────────────────────────────
   const head=`<div class="pb-head">
     <div style="display:flex;align-items:center;gap:11px;flex:1;min-width:0">
       <span style="font-size:25px">${plat.emoji}</span>
@@ -1457,168 +1733,186 @@ function buildPlatformBlock(plat){
       <div class="n pb-total">${fC(sum.total)}</div>
       ${sum.assetsInv>0?`<div class="n ${pcl(sum.assetsPnl)}" style="font-size:12px;font-weight:600;margin-top:2px">${ps(sum.assetsPnl)}${fC(sum.assetsPnl)} · ${ps(sum.assetsPct)}${fN(sum.assetsPct)}%</div>`:""}
     </div>`:""}
-    ${!isGlobal?`<div style="display:flex;gap:5px;align-items:center;flex-shrink:0;margin-left:8px">
-      <button onclick='openTraspasoModal(${JSON.stringify(plat.id)})' style="font-size:11px;font-weight:700;padding:5px 10px;border-radius:7px;border:1px solid var(--bborder);background:var(--bbg);color:var(--blue);cursor:pointer">↔ Traspasar</button>
-      <button onclick='openEditPlatModal(${JSON.stringify(plat.id)})' style="font-size:12px;padding:5px 8px;border-radius:7px;border:1px solid var(--border);background:#fff;color:var(--muted);cursor:pointer">✏️</button>
-      ${(S.customPlatforms||[]).find(p=>p.id===plat.id)?`<button onclick='deletePlat(${JSON.stringify(plat.id)})' style="font-size:12px;padding:5px 8px;border-radius:7px;border:1px solid var(--rborder);background:var(--rbg);color:var(--red);cursor:pointer">🗑</button>`:""}
+    ${!isGlobal?`<div style="display:flex;gap:5px;align-items:center;flex-shrink:0;margin-left:8px;flex-wrap:wrap">
+      <button onclick='opMovePlatUp(${opPlatArgs})' class="btn-sm" title="Mover arriba" style="font-size:14px;padding:4px 8px">↑</button>
+      <button onclick='opMovePlatDown(${opPlatArgs})' class="btn-sm" title="Mover abajo" style="font-size:14px;padding:4px 8px">↓</button>
+      <button onclick='openIngresarModal(${opPlatArgs},null)' class="btn-add" style="font-size:11px">+ Ingresar</button>
+      <button onclick='openRetirarModal(${opPlatArgs},null)' class="btn-sm">− Retirar</button>
+      <button onclick='openSubsModal(${opPlatArgs})' class="btn-sm" title="Activar subcuentas opcionales">⚙️ Subs</button>
+      <button onclick='openEditPlatModal(${opPlatArgs})' class="btn-sm">✏️</button>
+      <button onclick='deletePlat(${opPlatArgs})' class="btn-plat-del">🗑</button>
     </div>`:""}
   </div>`;
 
-  // Si tiene sub-cuentas (Crypto.com, BingX): renderizar cada una
-  if(plat.hasSubs){
-    const platSubs=getPlatSubs(plat.id)||CDC_SUBS;
-    return`<div class="card pb" style="border-left:4px solid ${plat.color}">
-      ${head}
-      ${platSubs.map(sub=>{
-        const subSum=sum.subs[sub.id]||emptyBucketSummary();
-        return`<div style="border-bottom:1px solid var(--border)">
-          <div class="subacc-h">
-            <div class="subacc-h-name">${sub.emoji} ${sub.name}</div>
-            <div class="subacc-h-tot">${subSum.total>0?fC(subSum.total):"—"}</div>
-          </div>
-          ${buildBucketsView(plat,sub.id,getBucket(S,plat.id,sub.id),subSum)}
-        </div>`;
-      }).join("")}
-    </div>`;
-  }
-
-  // Plataforma normal
-  return`<div class="card pb" style="border-left:4px solid ${plat.color}">
-    ${head}
-    ${buildBucketsView(plat,null,getBucket(S,plat.id),sum)}
-  </div>`;
-}
-
-function buildBucketsView(plat,subId,bucket,sum){
-  const isGlobal=ACTIVE_PROFILE==="global";
-  const opArgs=`${JSON.stringify(plat.id)},${JSON.stringify(subId||null)}`;
-
-  // CAJÓN 1: LIQUIDEZ
-  const liqEurUsdEquiv=eurToUsd(bucket.liquidity.eur||0);
-  const liqUsdEurEquiv=usdToEur(bucket.liquidity.usd||0);
-  const liquidezBlock=`<div class="cajon">
-    <div class="cajon-head">
-      <div class="cajon-title"><span class="ico">💰</span><div><div>Liquidez</div><div class="lbl">Efectivo disponible para operar</div></div></div>
-      ${!isGlobal?`<div class="cajon-actions">
-        <button class="btn-add" onclick='openIngresarModal(${opArgs})'>+ Ingresar</button>
-        <button class="btn-sm" onclick='openRetirarModal(${opArgs})'>− Retirar</button>
-        <button class="btn-sm" onclick='openTraspasoModal(${JSON.stringify(plat.id)},${JSON.stringify(subId||null)})' style="border-color:var(--bborder);color:var(--blue)">↔ Traspasar</button>
-      </div>`:""}
+  // ── CAJÓN 1: LIQUIDEZ (nivel de plataforma) ──────────────────
+  const liq=platData.liquidity||{eur:0,usd:0};
+  const liqEurEquiv=eurToUsd(liq.eur||0);
+  const liqUsdEquiv=usdToEur(liq.usd||0);
+  const liquidezBlock=`<div class="cajon" style="background:#f0fdf480">
+    <div class="cajon-head" style="background:#f0fdf4;border-bottom:1px solid var(--gborder)">
+      <div class="cajon-title" style="color:#166534"><span class="ico">💰</span><div><div>Liquidez</div><div class="lbl" style="color:#4ade80aa">Efectivo disponible · ${fC(sum.liqEur)}</div></div></div>
     </div>
     <div class="cajon-body">
       <div class="liq-grid">
         <div class="liq-cell">
           <div class="liq-cell-lbl">€ Euros</div>
-          <div class="liq-cell-val n">${fmt(bucket.liquidity.eur||0,"EUR")}</div>
-          ${(bucket.liquidity.eur||0)>0?`<div class="liq-cell-sub">≈ ${fmt(liqEurUsdEquiv,"USD")}</div>`:""}
+          <div class="liq-cell-val n">${fmt(liq.eur||0,"EUR")}</div>
+          ${(liq.eur||0)>0?`<div class="liq-cell-sub">≈ ${fmt(liqEurEquiv,"USD")}</div>`:""}
         </div>
         <div class="liq-cell">
-          <div class="liq-cell-lbl">$ Stablecoins / USD</div>
-          <div class="liq-cell-val n">${fmt(bucket.liquidity.usd||0,"USD")}</div>
-          ${(bucket.liquidity.usd||0)>0?`<div class="liq-cell-sub">≈ ${fmt(liqUsdEurEquiv,"EUR")}</div>`:""}
+          <div class="liq-cell-lbl">$ USD / Stablecoins</div>
+          <div class="liq-cell-val n">${fmt(liq.usd||0,"USD")}</div>
+          ${(liq.usd||0)>0?`<div class="liq-cell-sub">≈ ${fmt(liqUsdEquiv,"EUR")}</div>`:""}
         </div>
       </div>
-      <div style="padding:8px 18px;border-top:1px solid #f0f0e8;font-size:11px;color:var(--muted);background:#fcfcf8">
-        Total liquidez consolidada: <b>${fC(sum.liqEur)}</b>
-      </div>
     </div>
   </div>`;
 
-  // CAJÓN 2: ACTIVOS
-  const activosBlock=`<div class="cajon">
-    <div class="cajon-head">
-      <div class="cajon-title"><span class="ico">📊</span><div><div>Activos</div><div class="lbl">Tus inversiones (precio medio · ganancia/pérdida)</div></div></div>
+  // ── CAJÓN 2: EXTRAS (nivel de plataforma) ────────────────────
+  const extras=platData.extras||[];
+  const extrasBlock=`<div class="cajon" style="background:#f5f3ff20">
+    <div class="cajon-head" style="background:#f5f3ff;border-bottom:1px solid var(--pborder)">
+      <div class="cajon-title" style="color:#6d28d9"><span class="ico">🎁</span><div><div>Extras</div><div class="lbl" style="color:#a78bfa88">Rendimientos gratuitos · ${sum.extrasVal>0?fC(sum.extrasVal):"0€"}</div></div></div>
       ${!isGlobal?`<div class="cajon-actions">
-        <button class="btn-buy" onclick='openComprarModal(${opArgs})'>+ Comprar</button>
+        <button class="btn-extra" onclick='openExtraModal(${opPlatArgs},null)'>+ Añadir extra</button>
       </div>`:""}
     </div>
-    <div class="cajon-body">
-      ${bucket.assets.length===0
-        ?`<div style="padding:18px;text-align:center;color:var(--subtle);font-size:13px">Sin activos · ${!isGlobal?`<button class="btn-buy" onclick='openComprarModal(${opArgs})' style="margin-left:6px">+ Comprar</button>`:""}</div>`
-        :`<div class="th" style="grid-template-columns:1.6fr 1fr 1.2fr 1fr auto">
-            <span>Activo · Ticker</span>
-            <span style="text-align:right">Invertido · Valor</span>
-            <span style="text-align:center">P.Compra → P.Actual</span>
-            <span style="text-align:right">Ganancia / Pérdida</span>
-            <span></span>
-          </div>
-        ${bucket.assets.map(a=>{
-          const inv=a.unidades*a.precioMedio;
-          const cur=a.unidades*a.precioActual;
-          const gain=cur-inv,gp=pct(cur,inv);
-          const arrColor=a.precioActual>a.precioMedio?"var(--green)":a.precioActual<a.precioMedio?"var(--red)":"var(--muted)";
-          const arrSymbol=a.precioActual>a.precioMedio?"↗":"↘";
-          return`<div class="tr" style="grid-template-columns:1.6fr 1fr 1.2fr 1fr auto;align-items:center">
-            <div>
-              <div style="font-size:13px;font-weight:700">${a.nombre}${a._owner?` <span style="font-size:9px;color:var(--subtle);font-weight:500">(${a._owner})</span>`:""}</div>
-              <div style="font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.5px;margin-top:1px">${a.simbolo}</div>
-            </div>
-            <div style="text-align:right">
-              <div class="n" style="font-size:10px;color:var(--subtle)">Inv: ${fmt(inv,a.moneda)}</div>
-              <div class="n" style="font-size:13px;font-weight:700;color:var(--blue)">${fmt(cur,a.moneda)}</div>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:center;gap:5px">
-              <div style="text-align:right">
-                <div style="font-size:9px;color:var(--subtle);margin-bottom:1px">COMPRA</div>
-                <div class="n" style="font-size:11px;color:var(--muted)">${fmt(a.precioMedio,a.moneda)}</div>
-              </div>
-              <div style="font-size:16px;font-weight:700;color:${arrColor};flex-shrink:0">${arrSymbol}</div>
-              <div>
-                <div style="font-size:9px;color:var(--subtle);margin-bottom:1px">ACTUAL</div>
-                ${!isGlobal?`<div class="pinp-wrap">
-                  <input class="pinp" type="text" inputmode="decimal" value="${fN(a.precioActual,2)}"
-                    data-upd-price data-pid="${plat.id}" data-sub="${subId||""}" data-aid="${a.id}"/>
-                  <button class="pinp-ok" data-confirm-price data-pid="${plat.id}" data-sub="${subId||""}" data-aid="${a.id}">✓</button>
-                </div>`:`<div class="n" style="font-size:11px;font-weight:700;color:var(--blue)">${fmt(a.precioActual,a.moneda)}</div>`}
-              </div>
-            </div>
-            <div style="text-align:right">
-              <div class="n ${pcl(gain)}" style="font-size:13px;font-weight:800">${gain>=0?"+":""}${fmt(gain,a.moneda)}</div>
-              <div class="n ${pcl(gain)}" style="font-size:11px;font-weight:700;margin-top:2px">${gain>=0?"+":""}${fN(gp)}%</div>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end">
-              ${!isGlobal?`<button class="btn-sell" onclick='openVenderModal(${opArgs},${JSON.stringify(a.id)})'>💰 Vender</button>`:""}
-              ${!isGlobal?`<button class="btn-sm" onclick='openEditAssetModal(${JSON.stringify(plat.id)},${JSON.stringify(subId||null)},${JSON.stringify(a.id)})' style="font-size:10px">✏️</button>`:""}
-              ${!isGlobal?`<button class="del" data-act="del-asset" data-pid="${plat.id}" data-sub="${subId||""}" data-aid="${a.id}">✕</button>`:""}
-            </div>
-          </div>`;
-        }).join("")}`}
-    </div>
-  </div>`;
-
-  // CAJÓN 3: EXTRAS
-  const extrasBlock=`<div class="cajon">
-    <div class="cajon-head">
-      <div class="cajon-title"><span class="ico">🎁</span><div><div>Extras</div><div class="lbl">Rendimientos a coste cero</div></div></div>
-      ${!isGlobal?`<div class="cajon-actions">
-        <button class="btn-extra" onclick='openExtraModal(${opArgs})'>+ Añadir extra</button>
-      </div>`:""}
-    </div>
-    <div class="cajon-body">
-      ${bucket.extras.length===0
-        ?`<div style="padding:14px 18px;text-align:center;color:var(--subtle);font-size:12px">Sin extras — añade staking, cashback, dividendos o intereses cuando los recibas</div>`
-        :`<div class="th" style="grid-template-columns:1.8fr 1fr 1fr auto"><span>Concepto</span><span style="text-align:right">Valor</span><span style="text-align:right">Moneda</span><span></span></div>
-        ${bucket.extras.map(e=>{
+    <div class="cajon-body table-mobile-cards">
+      ${extras.length===0
+        ?`<div style="padding:12px 18px;text-align:center;color:var(--subtle);font-size:12px">Sin extras — staking, cashback, dividendos...</div>`
+        :`<div class="th tr-mobile-hide" style="grid-template-columns:1.8fr 1fr 1fr auto"><span>Concepto</span><span style="text-align:right">Valor</span><span style="text-align:right">Moneda</span><span></span></div>
+        ${extras.map(e=>{
           const total=e.unidades*(e.valorUnitario||0);
-          return`<div class="tr" style="grid-template-columns:1.8fr 1fr 1fr auto;align-items:center">
-            <div>
-              <div style="font-size:13px;font-weight:600">${e.nombre}${e._owner?` <span style="font-size:9px;color:var(--subtle)">(${e._owner})</span>`:""}</div>
-              <div style="font-size:10px;color:var(--subtle)">${e.fecha||"—"}</div>
-            </div>
+          const desktopRow=`<div class="tr tr-mobile-hide" style="grid-template-columns:1.8fr 1fr 1fr auto;align-items:center">
+            <div><div style="font-size:13px;font-weight:600">${e.nombre}${e._owner?` <span style="font-size:9px;color:var(--subtle)">(${e._owner})</span>`:""}</div><div style="font-size:10px;color:var(--subtle)">${e.fecha||"—"}</div></div>
             <div class="n" style="font-size:13px;font-weight:700;text-align:right;color:var(--purple)">${fmt(total,e.moneda)}</div>
             <div class="n" style="font-size:11px;color:var(--muted);text-align:right">${e.moneda}</div>
-            <div style="display:flex;flex-direction:column;gap:2px;align-items:flex-end">
-              ${!isGlobal?`<button class="btn-sm" onclick='openExtraModal(${JSON.stringify(plat.id)},${JSON.stringify(subId||null)},${JSON.stringify(e.id)})' style="font-size:10px;padding:3px 8px">✏️</button>`:""}
-              ${!isGlobal?`<button class="btn-sm" onclick='openCobrarExtraModal(${opArgs},${JSON.stringify(e.id)})' style="font-size:10px;padding:3px 8px;color:var(--green)">💸 Cobrar</button>`:""}
-              ${!isGlobal?`<button class="del" data-act="del-extra" data-pid="${plat.id}" data-sub="${subId||""}" data-eid="${e.id}">✕</button>`:""}
+            <div style="display:flex;gap:4px;align-items:center">
+              ${!isGlobal?`<button class="btn-sm" onclick='openExtraModal(${opPlatArgs},null,${JSON.stringify(e.id)})' style="font-size:10px;padding:3px 7px">✏️</button>`:""}
+              ${!isGlobal?`<button class="btn-sm" onclick='openCobrarExtraModal(${opPlatArgs},null,${JSON.stringify(e.id)})' style="font-size:10px;padding:3px 7px;color:var(--green)">💸</button>`:""}
+              ${!isGlobal?`<button class="del" data-act="del-extra" data-pid="${plat.id}" data-sub="" data-eid="${e.id}">✕</button>`:""}
             </div>
           </div>`;
+          const mobileCard=`<div class="mcard">
+            <div class="mcard-row">
+              <div><div class="mcard-name">${e.nombre}</div><div class="mcard-sub">${e.fecha||"—"} · ${e.moneda}</div></div>
+              <div class="mcard-val" style="color:var(--purple)">${fmt(total,e.moneda)}</div>
+            </div>
+            ${!isGlobal?`<div class="mcard-actions">
+              <button class="btn-sm" onclick='openExtraModal(${opPlatArgs},null,${JSON.stringify(e.id)})'>✏️ Editar</button>
+              <button class="btn-sm" onclick='openCobrarExtraModal(${opPlatArgs},null,${JSON.stringify(e.id)})' style="color:var(--green)">💸 Cobrar</button>
+              <button class="btn-plat-del" data-act="del-extra" data-pid="${plat.id}" data-sub="" data-eid="${e.id}">✕</button>
+            </div>`:""}
+          </div>`;
+          return desktopRow+mobileCard;
         }).join("")}`}
     </div>
   </div>`;
 
-  return liquidezBlock+activosBlock+extrasBlock;
+  // ── CAJONES DE ACTIVOS — una sección por subcuenta ───────────
+  const platSubs=getSubsFor(plat.id);
+  const activosSubs=platSubs.map(sub=>{
+    const subData=platData.subs?.[sub.id]||{assets:[]};
+    const subSumObj=sum.subs?.[sub.id]||{assetsInv:0,assetsCur:0,assetsPnl:0,assetsPct:0};
+    const opArgs=`${JSON.stringify(plat.id)},${JSON.stringify(sub.id)}`;
+    const assets=subData.assets||[];
+    const subTotal=subSumObj.assetsCur||0;
+
+    const assetsRows=assets.length===0
+      ?`<div style="padding:14px 18px;text-align:center;color:var(--subtle);font-size:12px">Sin activos${!isGlobal?` · <button class="btn-buy" onclick='openComprarModal(${opArgs})' style="margin-left:6px">+ Comprar</button>`:""}</div>`
+      :`<div class="th tr-mobile-hide" style="grid-template-columns:1.6fr 1fr 1.2fr 1fr auto">
+          <span>Activo · Ticker</span><span style="text-align:right">Invertido · Valor</span>
+          <span style="text-align:center">P.Compra → P.Actual</span>
+          <span style="text-align:right">Ganancia / Pérdida</span><span></span>
+        </div>
+      ${assets.map(a=>{
+        const inv=a.unidades*a.precioMedio;
+        const cur=a.unidades*a.precioActual;
+        const gain=cur-inv,gp=pct(cur,inv);
+        const arrColor=a.precioActual>a.precioMedio?"var(--green)":a.precioActual<a.precioMedio?"var(--red)":"var(--muted)";
+        const arrSymbol=a.precioActual>a.precioMedio?"↗":"↘";
+        const desktopRow=`<div class="tr tr-mobile-hide" style="grid-template-columns:1.6fr 1fr 1.2fr 1fr auto;align-items:center">
+          <div>
+            <div style="font-size:13px;font-weight:700">${a.nombre}${a._owner?` <span style="font-size:9px;color:var(--subtle)">(${a._owner})</span>`:""}</div>
+            <div style="font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.5px">${a.simbolo}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="n" style="font-size:10px;color:var(--subtle)">Inv: ${fmt(inv,a.moneda)}</div>
+            <div class="n" style="font-size:13px;font-weight:700;color:var(--blue)">${fmt(cur,a.moneda)}</div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:5px">
+            <div style="text-align:right">
+              <div style="font-size:9px;color:var(--subtle);margin-bottom:1px">COMPRA</div>
+              <div class="n" style="font-size:11px;color:var(--muted)">${fmt(a.precioMedio,a.moneda)}</div>
+            </div>
+            <div style="font-size:16px;font-weight:700;color:${arrColor}">${arrSymbol}</div>
+            <div>
+              <div style="font-size:9px;color:var(--subtle);margin-bottom:1px">ACTUAL</div>
+              ${!isGlobal?`<div class="pinp-wrap">
+                <input class="pinp" type="text" inputmode="decimal" value="${fN(a.precioActual,2)}" data-upd-price data-pid="${plat.id}" data-sub="${sub.id}" data-aid="${a.id}"/>
+                <button class="pinp-ok" data-confirm-price data-pid="${plat.id}" data-sub="${sub.id}" data-aid="${a.id}">✓</button>
+              </div>`:`<div class="n" style="font-size:11px;font-weight:700;color:var(--blue)">${fmt(a.precioActual,a.moneda)}</div>`}
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div class="n ${pcl(gain)}" style="font-size:13px;font-weight:800">${gain>=0?"+":""}${fmt(gain,a.moneda)}</div>
+            <div class="n ${pcl(gain)}" style="font-size:11px;font-weight:700">${gain>=0?"+":""}${fN(gp)}%</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end">
+            ${!isGlobal?`<button class="btn-sell" onclick='openVenderModal(${opArgs},${JSON.stringify(a.id)})'>💰 Vender</button>`:""}
+            ${!isGlobal?`<button class="btn-sm" onclick='openEditAssetModal(${JSON.stringify(plat.id)},${JSON.stringify(sub.id)},${JSON.stringify(a.id)})' style="font-size:10px">✏️</button>`:""}
+            ${!isGlobal?`<button class="del" data-act="del-asset" data-pid="${plat.id}" data-sub="${sub.id}" data-aid="${a.id}">✕</button>`:""}
+          </div>
+        </div>`;
+        const mobileCard=`<div class="mcard">
+          <div class="mcard-row">
+            <div>
+              <div class="mcard-name">${a.nombre}${a._owner?` <span style="font-size:10px;color:var(--subtle)">(${a._owner})</span>`:""}</div>
+              <div class="mcard-sub" style="color:var(--blue)">${a.simbolo} · ${fN(a.unidades,4)} uds</div>
+            </div>
+            <div style="text-align:right">
+              <div class="mcard-val" style="color:var(--blue)">${fmt(cur,a.moneda)}</div>
+              <div class="n ${pcl(gain)}" style="font-size:12px;font-weight:700">${gain>=0?"+":""}${fmt(gain,a.moneda)} · ${gain>=0?"+":""}${fN(gp)}%</div>
+            </div>
+          </div>
+          <div class="mcard-row bord">
+            <div><div class="mcard-sub">P.Compra → Actual</div>
+              <div><span class="n" style="color:var(--muted)">${fmt(a.precioMedio,a.moneda)}</span> <span style="color:${arrColor};font-weight:700">${arrSymbol}</span> <span class="n" style="color:var(--blue)">${fmt(a.precioActual,a.moneda)}</span></div>
+            </div>
+            ${!isGlobal?`<div class="pinp-wrap">
+              <input class="pinp" type="text" inputmode="decimal" value="${fN(a.precioActual,2)}" data-upd-price data-pid="${plat.id}" data-sub="${sub.id}" data-aid="${a.id}"/>
+              <button class="pinp-ok" data-confirm-price data-pid="${plat.id}" data-sub="${sub.id}" data-aid="${a.id}">✓</button>
+            </div>`:""}
+          </div>
+          ${!isGlobal?`<div class="mcard-actions">
+            <button class="btn-sell" onclick='openVenderModal(${opArgs},${JSON.stringify(a.id)})'>💰 Vender</button>
+            <button class="btn-sm" onclick='openEditAssetModal(${JSON.stringify(plat.id)},${JSON.stringify(sub.id)},${JSON.stringify(a.id)})'>✏️</button>
+            <button class="btn-plat-del" data-act="del-asset" data-pid="${plat.id}" data-sub="${sub.id}" data-aid="${a.id}">✕</button>
+          </div>`:""}
+        </div>`;
+        return desktopRow+mobileCard;
+      }).join("")}`;
+
+    return`<div class="cajon">
+      <div class="cajon-head" style="background:#eff6ff;border-bottom:1px solid var(--bborder)">
+        <div class="cajon-title" style="color:#1d4ed8"><span class="ico">${sub.emoji}</span><div><div>${sub.name}</div><div class="lbl" style="color:#93c5fdaa">Activos · ${subTotal>0?fC(subTotal):"vacío"}</div></div></div>
+        ${!isGlobal?`<div class="cajon-actions">
+          <button class="btn-buy" onclick='openComprarModal(${opArgs})'>+ Comprar</button>
+        </div>`:""}
+      </div>
+      <div class="cajon-body table-mobile-cards">${assetsRows}</div>
+    </div>`;
+  }).join("");
+
+  return`<div class="card pb" style="border-left:4px solid ${plat.color}">
+    ${head}
+    ${liquidezBlock}
+    ${activosSubs}
+    ${extrasBlock}
+  </div>`;
 }
+
+// buildBucketsView eliminado — lógica integrada en buildPlatformBlock
 
 // ── ACTIVOS GLOBALES (lista plana) ────────────────────────────────
 function buildActivos(){
@@ -1626,15 +1920,15 @@ function buildActivos(){
   if(!all.length)return`${tip("📋","Lista plana de todos tus activos en todas las plataformas, ordenados por valor.")}<div class="card" style="padding:44px;text-align:center;color:var(--muted)">Sin activos · ve a <span style="color:var(--blue);cursor:pointer;font-weight:700" data-act="goto-plat">Plataformas</span> y compra desde tu liquidez</div>`;
   const totCur=all.reduce((s,a)=>s+toEUR(a.unidades*a.precioActual,a.moneda),0);
   return`${tip("📋","Lista plana de todos tus activos. Útil para ver cuánto pesa cada uno en tu portfolio total.")}
-  <div class="card" style="overflow-x:auto"><div style="min-width:680px">
-    <div class="th" style="grid-template-columns:1.8fr 1fr 1fr 1fr 1fr 90px"><span>Activo</span><span>Plataforma</span><span style="text-align:right">Invertido</span><span style="text-align:right">Valor</span><span style="text-align:right">Ganancia</span><span style="text-align:right">Peso</span></div>
+  <div class="card table-mobile-cards" style="overflow-x:auto"><div style="min-width:680px">
+    <div class="th tr-mobile-hide" style="grid-template-columns:1.8fr 1fr 1fr 1fr 1fr 90px"><span>Activo</span><span>Plataforma</span><span style="text-align:right">Invertido</span><span style="text-align:right">Valor</span><span style="text-align:right">Ganancia</span><span style="text-align:right">Peso</span></div>
     ${[...all].sort((a,b)=>(b.unidades*b.precioActual)-(a.unidades*a.precioActual)).map(a=>{
       const inv=toEUR(a.unidades*a.precioMedio,a.moneda);
       const cur=toEUR(a.unidades*a.precioActual,a.moneda);
       const gain=cur-inv,gp=pct(cur,inv);
       const w=totCur>0?cur/totCur*100:0;
       const subLabel=a.subId?` · ${findSubName(a.subId)}`:"";
-      return`<div class="tr" style="grid-template-columns:1.8fr 1fr 1fr 1fr 1fr 90px">
+      const desktopRow=`<div class="tr tr-mobile-hide" style="grid-template-columns:1.8fr 1fr 1fr 1fr 1fr 90px">
         <div><div style="font-size:13px;font-weight:700">${a.nombre}${a._owner?` <span style="font-size:9px;color:var(--subtle)">(${a._owner})</span>`:""}</div><div style="font-size:10px;color:var(--subtle)">${a.simbolo}</div></div>
         <div style="display:flex;align-items:center;gap:6px"><div style="width:7px;height:7px;border-radius:2px;background:${a.plat.color}"></div><span style="font-size:11px;color:var(--muted);font-weight:500">${a.plat.name}${subLabel}</span></div>
         <div class="n" style="font-size:12px;text-align:right;color:var(--muted)">${fC(inv)}</div>
@@ -1642,6 +1936,24 @@ function buildActivos(){
         <div style="text-align:right"><div class="n ${pcl(gain)}" style="font-size:13px;font-weight:700">${ps(gain)}${fC(gain)}</div><div class="n ${pcl(gain)}" style="font-size:11px;font-weight:600">${ps(gp)}${fN(gp)}%</div></div>
         <div style="text-align:right"><div class="n" style="font-size:12px;font-weight:700">${fN(w,1)}%</div><div class="prog-wrap"><div class="prog" style="width:${Math.min(w,100).toFixed(1)}%;background:${a.plat.color}"></div></div></div>
       </div>`;
+      const mobileCard=`<div class="mcard">
+        <div class="mcard-row">
+          <div>
+            <div class="mcard-name">${a.nombre}${a._owner?` <span style="font-size:10px;color:var(--subtle)">(${a._owner})</span>`:""}</div>
+            <div class="mcard-sub" style="display:flex;align-items:center;gap:5px"><div style="width:7px;height:7px;border-radius:2px;background:${a.plat.color}"></div>${a.simbolo} · ${a.plat.name}${subLabel}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="mcard-val" style="font-size:16px">${fC(cur)}</div>
+            <div class="n ${pcl(gain)}" style="font-size:11px;font-weight:600">${ps(gp)}${fN(gp)}%</div>
+          </div>
+        </div>
+        <div class="mcard-row bord">
+          <div><div class="mcard-sub">Invertido</div><div class="n" style="font-size:13px;color:var(--muted)">${fC(inv)}</div></div>
+          <div style="text-align:right"><div class="mcard-sub">Ganancia</div><div class="n ${pcl(gain)}" style="font-size:13px;font-weight:700">${ps(gain)}${fC(gain)}</div></div>
+          <div style="text-align:right"><div class="mcard-sub">Peso</div><div class="n" style="font-size:13px;font-weight:700">${fN(w,1)}%</div></div>
+        </div>
+      </div>`;
+      return desktopRow+mobileCard;
     }).join("")}
   </div></div>`;
 }
@@ -1664,7 +1976,7 @@ function buildCapital(){
       </div>
       <div class="fi-row">
         <div class="fg" style="flex:1"><label class="fl">Concepto *</label><input type="text" placeholder="ej: Transferencia enero" value="${S.capForm.concept||""}" data-cf="concept" style="${IS}"/></div>
-        <div class="fg" style="flex:0 0 160px"><label class="fl">Plataforma destino</label><select data-cf="platform" style="${IS}"><option value="general"${S.capForm.platform==="general"?" selected":""}>🌐 General</option>${PLATS.map(p=>`<option value="${p.id}"${S.capForm.platform===p.id?" selected":""}>${p.emoji} ${p.name}</option>`).join("")}</select></div>
+        <div class="fg" style="flex:0 0 160px"><label class="fl">Plataforma destino</label><select data-cf="platform" style="${IS}"><option value="general"${S.capForm.platform==="general"?" selected":""}>🌐 General</option>${getPlats().map(p=>`<option value="${p.id}"${S.capForm.platform===p.id?" selected":""}>${p.emoji} ${p.name}</option>`).join("")}</select></div>
       </div>
       <button class="btn btn-green" data-act="add-capital" style="width:100%;padding:11px">${S.capForm.type==="in"?"💰 Registrar aportación":"💸 Registrar retirada"}</button>
       ${S.capMsg?`<div class="notice n-ok" style="margin-top:10px">✅ ${S.capMsg}</div>`:""}
@@ -1678,14 +1990,14 @@ function buildCapital(){
       ${sc("Capital neto",fC(cap.netCapital),"Aportado − Retirado","var(--blue)")}
     </div>
     ${addForm}
-    <div class="card" style="overflow:hidden">
+    <div class="card table-mobile-cards" style="overflow:hidden">
       <div style="padding:12px 18px;background:#fafaf8;border-bottom:1px solid var(--border);font-size:9px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--subtle)">Historial${ACTIVE_PROFILE==="global"?" — Jorge + Raquel":""}</div>
-      ${movs.length===0?`<div style="padding:36px;text-align:center;color:var(--subtle);font-size:13px">Sin movimientos.</div>`:`<div style="overflow-x:auto"><div style="min-width:580px">
-        <div style="display:grid;grid-template-columns:90px 90px 1fr 130px 90px auto;gap:8px;padding:8px 18px;font-size:9px;font-weight:700;color:var(--subtle);border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:1px"><span>Fecha</span><span>Tipo</span><span>Concepto</span><span>Plataforma</span><span style="text-align:right">Cantidad</span><span></span></div>
+      ${movs.length===0?`<div style="padding:36px;text-align:center;color:var(--subtle);font-size:13px">Sin movimientos.</div>`:`<div style="overflow-x:auto"><div style="min-width:580px" class="table-mobile-cards">
+        <div class="tr-mobile-hide" style="display:grid;grid-template-columns:90px 90px 1fr 130px 90px auto;gap:8px;padding:8px 18px;font-size:9px;font-weight:700;color:var(--subtle);border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:1px"><span>Fecha</span><span>Tipo</span><span>Concepto</span><span>Plataforma</span><span style="text-align:right">Cantidad</span><span></span></div>
         ${[...movs].reverse().map(m=>{
           const plat=m.platform&&m.platform!=="general"?platBy(m.platform):null;
           const op=m._owner?PROFILES.find(p=>p.name===m._owner):null;
-          return`<div style="display:grid;grid-template-columns:90px 90px 1fr 130px 90px auto;gap:8px;padding:11px 18px;border-bottom:1px solid #f2f2ea;align-items:center">
+          const desktopRow=`<div class="tr-mobile-hide" style="display:grid;grid-template-columns:90px 90px 1fr 130px 90px auto;gap:8px;padding:11px 18px;border-bottom:1px solid #f2f2ea;align-items:center">
             <div class="n" style="font-size:11px;color:var(--muted)">${m.date||"—"}</div>
             <div style="display:flex;flex-direction:column;gap:3px"><span class="${m.type==="in"?"cap-type-in":"cap-type-out"}">${m.type==="in"?"💰":"💸"} ${m.type==="in"?"Entrada":"Salida"}</span>${op?`<span style="font-size:9px;font-weight:700;color:${op.color}">${op.emoji} ${op.name}</span>`:""}</div>
             <div style="font-size:13px;font-weight:600">${m.concept}</div>
@@ -1693,8 +2005,30 @@ function buildCapital(){
             <div class="n ${m.type==="in"?"pos":"neg"}" style="font-size:13px;font-weight:700;text-align:right">${m.type==="in"?"+":"−"}${fC(m.amount)}</div>
             ${ACTIVE_PROFILE==="global"?`<span></span>`:`<button class="del" data-act="del-capital" data-id="${m.id}">✕</button>`}
           </div>`;
+          const mobileCard=`<div class="mcard">
+            <div class="mcard-row">
+              <div>
+                <div class="mcard-name">${m.concept}</div>
+                <div class="mcard-sub">${m.date||"—"} · ${plat?`${plat.emoji} ${plat.name}`:"🌐 General"}${op?` · ${op.emoji} ${op.name}`:""}</div>
+              </div>
+              <div style="text-align:right">
+                <span class="${m.type==="in"?"cap-type-in":"cap-type-out"}" style="display:inline-block;margin-bottom:4px">${m.type==="in"?"💰 Entrada":"💸 Salida"}</span>
+                <div class="n ${m.type==="in"?"pos":"neg"}" style="font-size:16px;font-weight:800">${m.type==="in"?"+":"−"}${fC(m.amount)}</div>
+              </div>
+            </div>
+            ${ACTIVE_PROFILE!=="global"?`<div class="mcard-actions">
+              <button class="btn-plat-del" data-act="del-capital" data-id="${m.id}">✕ Eliminar</button>
+            </div>`:""}
+          </div>`;
+          return desktopRow+mobileCard;
         }).join("")}
-        <div style="display:grid;grid-template-columns:90px 90px 1fr 130px 90px auto;gap:8px;padding:12px 18px;border-top:2px solid var(--border);background:#fafaf8;align-items:center"><div style="grid-column:1/5;font-size:12px;font-weight:700">Capital neto total</div><div class="n ${pcl(cap.netCapital)}" style="font-size:15px;font-weight:800;text-align:right">${ps(cap.netCapital)}${fC(cap.netCapital)}</div><span></span></div>
+        <div class="tr-mobile-hide" style="display:grid;grid-template-columns:90px 90px 1fr 130px 90px auto;gap:8px;padding:12px 18px;border-top:2px solid var(--border);background:#fafaf8;align-items:center"><div style="grid-column:1/5;font-size:12px;font-weight:700">Capital neto total</div><div class="n ${pcl(cap.netCapital)}" style="font-size:15px;font-weight:800;text-align:right">${ps(cap.netCapital)}${fC(cap.netCapital)}</div><span></span></div>
+        <div class="mcard" style="background:#fafaf8;border:2px solid var(--border)">
+          <div class="mcard-row">
+            <div class="mcard-name">Capital neto total</div>
+            <div class="n ${pcl(cap.netCapital)}" style="font-size:18px;font-weight:800">${ps(cap.netCapital)}${fC(cap.netCapital)}</div>
+          </div>
+        </div>
       </div></div>`}
     </div>
   </div>`;
@@ -2338,6 +2672,7 @@ function render(){
             <span>Activos: <b>${fC(T.assetsCur)}</b></span>
             ${T.extrasVal>0?`<span>Extras: <b style="color:var(--purple)">+${fC(T.extrasVal)}</b></span>`:""}
             <span>1 EUR = ${fN(EUR_USD,4)} USD</span>
+            <span id="sync-status" style="cursor:pointer;user-select:none" onclick="gdriveSync('sync')" title="Sincronizar ahora con Drive">☁️ Drive</span>
           </div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
@@ -2347,14 +2682,16 @@ function render(){
           </div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">
             <button onclick="abrirPDF()" style="font-size:11px;font-weight:700;padding:6px 11px;border-radius:7px;border:1px solid var(--border);background:#fff;color:var(--text);cursor:pointer">📄 PDF</button>
-            <button onclick="exportarDatos()" style="font-size:11px;font-weight:700;padding:6px 11px;border-radius:7px;border:1px solid var(--border);background:#fff;color:var(--text);cursor:pointer">💾 Backup</button>
+            <button onclick="gdriveSync('backup')" style="font-size:11px;font-weight:700;padding:6px 11px;border-radius:7px;border:1px solid #16a34a;background:#f0fdf4;color:#16a34a;cursor:pointer" title="Guardar copia en Google Drive">☁️ Drive Backup</button>
+            <button onclick="gdriveLoad()" style="font-size:11px;font-weight:700;padding:6px 11px;border-radius:7px;border:1px solid #1d4ed8;background:#eff6ff;color:#1d4ed8;cursor:pointer" title="Cargar datos desde Google Drive">⬇️ Drive Cargar</button>
+            <button onclick="exportarDatos()" style="font-size:11px;font-weight:700;padding:6px 11px;border-radius:7px;border:1px solid var(--border);background:#fff;color:var(--text);cursor:pointer">💾 Local</button>
             <button onclick="importarDatos()" style="font-size:11px;font-weight:700;padding:6px 11px;border-radius:7px;border:1px solid var(--border);background:#fff;color:var(--text);cursor:pointer">📂 Restaurar</button>
           </div>
           ${ACTIVE_PROFILE==="global"?`<div style="font-size:11px;color:var(--blue);font-weight:600;background:var(--bbg);border:1px solid var(--bborder);padding:5px 12px;border-radius:7px">👁 Vista combinada — solo lectura</div>`:`<button class="btn-red-s" data-act="reset-step1">🗑 Borrar todo</button>`}
         </div>
       </div>
       <div class="periods">${["Hoy","Semana","Mes","Año","Total"].map(p=>`<button class="pbtn${S.periodo===p?" on":""}" data-act="periodo" data-val="${p}">${p}</button>`).join("")}</div>
-      <div class="tabs">${TABS.map(t=>`<button class="tbtn${S.tab===t.id?" on":""}" data-act="tab" data-val="${t.id}">${t.l}</button>`).join("")}</div>
+      <div class="tabs tabs-desktop">${TABS.map(t=>`<button class="tbtn${S.tab===t.id?" on":""}" data-act="tab" data-val="${t.id}">${t.l}</button>`).join("")}</div>
     </div></div>
     <div class="content fade">
       ${S.tab==="resumen"?buildResumen():""}
@@ -2364,6 +2701,19 @@ function render(){
       ${S.tab==="hacienda"?buildHacienda():""}
       ${S.tab==="objetivos"?buildObjetivos():""}
     </div>
+    <!-- Bottom navigation: visible solo en móvil -->
+    <nav class="bottom-nav">
+      ${TABS.map(t=>{
+        // Sacar emoji + texto del label "🏠 Resumen"
+        const m=t.l.match(/^(\S+)\s+(.+)$/);
+        const ico=m?m[1]:"●";
+        const txt=m?m[2]:t.l;
+        return`<button class="bnav-btn${S.tab===t.id?" on":""}" data-act="tab" data-val="${t.id}">
+          <span class="bnav-ico">${ico}</span>
+          <span class="bnav-lbl">${txt}</span>
+        </button>`;
+      }).join("")}
+    </nav>
   </div>`;
   bindEvents();
 }
@@ -2559,8 +2909,13 @@ window.doDelAsset=(pid,sub,aid)=>{
   saveState();closeModal();render();
 };
 window.doDelExtra=(pid,sub,eid)=>{
-  opDelExtra(pid,sub,eid);
-  saveState();closeModal();render();
+  // Extras siempre a nivel de plataforma
+  const platE=S.platforms?S.platforms[pid]:null;
+  if(platE){
+    platE.extras=(platE.extras||[]).filter(e=>e.id!==eid);
+    saveState();closeModal();render();
+    showToast("✅ Extra eliminado");
+  }
 };
 window.doDelCapital=id=>{
   S.capitalMovements=(S.capitalMovements||[]).filter(m=>m.id!==id);
@@ -2856,19 +3211,16 @@ function maybeAddPortfolioSnapshot(){
   if(S.portfolioSnapshots.length>730)S.portfolioSnapshots=S.portfolioSnapshots.slice(-730);
 }
 
-// Iniciar la app
-maybeAddPortfolioSnapshot();
-saveState();
-render();
-
 //================================================================
 // NUEVAS FUNCIONES — COMPRAR / VENDER / EXTRAS / EDITAR ACTIVO
 //================================================================
 window._openComprarModal=function(platId,subId){
   const plat=platBy(platId);
   const subTxt=subId?` · ${findSubName(subId)}`:"";
-  const b=getBucket(S,platId,subId);
-  const liqEur=b.liquidity?.eur||0,liqUsd=b.liquidity?.usd||0;
+  // Liquidez de la plataforma (no de la sub)
+  const platLiq=S.platforms?.[platId]?.liquidity||{eur:0,usd:0};
+  const liqEur=platLiq.eur||0,liqUsd=platLiq.usd||0;
+  const b={liquidity:platLiq,assets:[]};
   modal({html:`
     <h3>🛒 Comprar activo</h3>
     <p style="margin-bottom:10px"><b>${plat.emoji} ${plat.name}${subTxt}</b> &nbsp;·&nbsp;
@@ -2936,14 +3288,15 @@ window.confirmarCompraNew=(platId,subId)=>{
   const fecha=document.getElementById("c-fecha").value||today();
   if(!nombre||!simbolo||!euros||!precio){alert("Rellena todos los campos (*)");return;}
   const unidades=euros/precio;
-  const r=opComprar(platId,subId,{simbolo,nombre,unidades,precio,monedaPago,fecha});
+  // subId indica la subcuenta de activos; la liquidez se resta de la plataforma
+  const r=opComprar(platId,subId||"spot",{simbolo,nombre,unidades,precio,monedaPago,fecha});
   if(!r.ok){alert("❌ "+r.error);return;}
   saveState();closeModal();render();
   showToast(`✅ ${fN(unidades,4)} ${simbolo} por ${fmt(euros,monedaPago)}`);
 };
 
 window._openVenderModal=function(platId,subId,assetId){
-  const b=getBucket(S,platId,subId);
+  const b=getBucket(S,platId,subId||"spot");
   const asset=(b.assets||[]).find(a=>a.id===assetId);
   if(!asset)return;
   const plat=platBy(platId);
@@ -3085,12 +3438,16 @@ window.confirmarExtraNew=(platId,subId,extraId)=>{
   const moneda=document.getElementById("e-moneda").value;
   const fecha=document.getElementById("e-fecha").value||today();
   if(!nombre||!valor){alert("Rellena concepto y cantidad");return;}
-  const b=getBucket(S,platId,subId||null);
-  if(extraId){
-    const idx=(b.extras||[]).findIndex(e=>e.id===extraId);
-    if(idx>=0)b.extras[idx]={...b.extras[idx],nombre,unidades:1,valorUnitario:valor,moneda,fecha};
-  }else{
-    opAddExtra(platId,subId,{simbolo:moneda,nombre,unidades:1,valorUnitario:valor,moneda,tipo:"extra",fecha});
+  // Extras siempre a nivel de plataforma
+  const plat=S.platforms?S.platforms[platId]:null;
+  if(plat){
+    if(!plat.extras)plat.extras=[];
+    if(extraId){
+      const idx=plat.extras.findIndex(e=>e.id===extraId);
+      if(idx>=0)plat.extras[idx]={...plat.extras[idx],nombre,unidades:1,valorUnitario:valor,moneda,fecha};
+    }else{
+      plat.extras.push({id:uid(),simbolo:moneda,nombre,unidades:1,valorUnitario:valor,moneda,tipo:"extra",fecha});
+    }
   }
   saveState();closeModal();render();
   showToast(`✅ Extra ${extraId?"actualizado":"añadido"}: ${nombre}`);
@@ -3118,7 +3475,7 @@ window.openEditAssetModal=(platId,subId,assetId)=>{
   `});
 };
 window.confirmarEditAssetNew=(platId,subId,assetId)=>{
-  const b=getBucket(S,platId,subId||null);
+  const b=getBucket(S,platId,subId||"spot");
   const idx=(b.assets||[]).findIndex(a=>a.id===assetId);
   if(idx<0)return;
   const nombre=document.getElementById("ea-nombre").value.trim();
@@ -3148,56 +3505,98 @@ window.openNuevaPlatModal=()=>{
     </div>
   `});
 };
-window.confirmarNuevaPlatNew=()=>{
-  const nombre=(document.getElementById("np-nombre")||{}).value?.trim();
-  if(!nombre){alert("El nombre es obligatorio");return;}
-  const plat={id:"custom_"+uid(),name:nombre,
-    emoji:(document.getElementById("np-emoji")||{}).value?.trim()||"🏦",
-    tipo:(document.getElementById("np-tipo")||{}).value?.trim()||"Plataforma",
-    base:(document.getElementById("np-moneda")||{}).value||"EUR",
-    color:(document.getElementById("np-color")||{}).value||randomColor(),
-    isCustom:true};
-  if(!S.customPlatforms)S.customPlatforms=[];
-  S.customPlatforms.push(plat);
-  saveState();closeModal();render();
-};
-window.openEditPlatModal=(platId)=>{
+// ── Modal: activar/desactivar subcuentas opcionales ──
+window.openSubsModal=(platId)=>{
   const plat=getPlats().find(p=>p.id===platId);if(!plat)return;
-  const isCustom=!!(S.customPlatforms||[]).find(p=>p.id===platId);
+  const enabled=plat.enabledSubs||[];
   modal({html:`
-    <h3>✏️ Editar ${plat.name}</h3>
-    <div class="fg"><label class="fl">Emoji</label><input id="ep-emoji" class="fi" type="text" value="${plat.emoji}" maxlength="2" style="font-size:20px;width:80px"/></div>
-    ${isCustom?`
-    <div class="fg"><label class="fl">Nombre</label><input id="ep-nombre" class="fi" type="text" value="${plat.name}"/></div>
-    <div class="fg"><label class="fl">Color</label><input id="ep-color" class="fi" type="text" value="${plat.color}"/></div>`
-    :"<p style='font-size:12px;color:var(--muted);margin-bottom:12px'>Solo puedes editar el emoji de las plataformas base.</p>"}
+    <h3>⚙️ Subcuentas de ${plat.emoji} ${plat.name}</h3>
+    <p style="margin-bottom:12px;font-size:12px;color:var(--muted)">Las subcuentas <b>Spot</b>, <b>Futuros</b> y <b>Extras</b> están siempre activas. Puedes activar también:</p>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px">
+      ${OPTIONAL_SUBS.map(sub=>{
+        const isOn=enabled.includes(sub.id);
+        return`<label style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:${isOn?"var(--gbg)":"var(--bg)"};border:1px solid ${isOn?"var(--gborder)":"var(--border)"};border-radius:9px;cursor:pointer">
+          <input type="checkbox" ${isOn?"checked":""} onchange="toggleSubAccount('${platId}','${sub.id}')" style="width:18px;height:18px;cursor:pointer;accent-color:var(--green)"/>
+          <span style="font-size:18px">${sub.emoji}</span>
+          <div style="flex:1">
+            <div style="font-size:14px;font-weight:700">${sub.name}</div>
+            <div style="font-size:11px;color:var(--muted)">${isOn?"✅ Activada":"Desactivada"}</div>
+          </div>
+        </label>`;
+      }).join("")}
+    </div>
+    <p style="font-size:11px;color:var(--subtle);line-height:1.5;margin-bottom:14px">⚠️ Para desactivar una subcuenta, primero debe estar vacía (sin liquidez ni activos).</p>
     <div class="mo-btns">
-      <button class="btn btn-sm" onclick="closeModal()">Cancelar</button>
-      <button class="btn btn-dark" onclick="confirmarEditPlatNew('${platId}',${isCustom})" style="padding:10px 18px">Guardar</button>
+      <button class="btn btn-sm" onclick="closeModal()">Cerrar</button>
     </div>
   `});
 };
-window.confirmarEditPlatNew=(platId,isCustom)=>{
-  const emoji=(document.getElementById("ep-emoji")||{}).value?.trim();
-  if(isCustom){
-    const nombre=(document.getElementById("ep-nombre")||{}).value?.trim();
-    const color=(document.getElementById("ep-color")||{}).value?.trim();
-    S.customPlatforms=(S.customPlatforms||[]).map(p=>p.id===platId?{...p,emoji:emoji||p.emoji,name:nombre||p.name,color:color||p.color}:p);
-  }else{
-    if(!S.platOverrides)S.platOverrides={};
-    S.platOverrides[platId]={emoji};
-  }
+
+window.confirmarNuevaPlatNew=()=>{
+  const nombre=(document.getElementById("np-nombre")||{}).value?.trim();
+  if(!nombre){alert("El nombre es obligatorio");return;}
+  const r=opAddPlatform({
+    name:nombre,
+    emoji:(document.getElementById("np-emoji")||{}).value?.trim()||undefined,
+    tipo:(document.getElementById("np-tipo")||{}).value?.trim()||undefined,
+    base:(document.getElementById("np-moneda")||{}).value||undefined,
+    color:(document.getElementById("np-color")||{}).value||undefined,
+  });
+  if(!r.ok){alert("❌ "+(r.error||"Error"));return;}
+  saveState();closeModal();render();
+  showToast("✅ Plataforma "+r.plat.name+" añadida");
+};
+window.openEditPlatModal=(platId)=>{
+  const plat=getPlats().find(p=>p.id===platId);if(!plat)return;
+  modal({html:`
+    <h3>✏️ Editar ${plat.name}</h3>
+    <div class="fg"><label class="fl">Emoji</label><input id="ep-emoji" class="fi" type="text" value="${plat.emoji}" maxlength="2" style="font-size:20px;width:80px"/></div>
+    <div class="fg"><label class="fl">Nombre</label><input id="ep-nombre" class="fi" type="text" value="${plat.name}"/></div>
+    <div class="fg"><label class="fl">Tipo</label><input id="ep-tipo" class="fi" type="text" value="${plat.tipo||""}"/></div>
+    <div class="fg"><label class="fl">Color</label><input id="ep-color" class="fi" type="text" value="${plat.color}"/></div>
+    <div class="mo-btns">
+      <button class="btn btn-sm" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-dark" onclick="confirmarEditPlatNew('${platId}')" style="padding:10px 18px">Guardar</button>
+    </div>
+  `});
+};
+window.confirmarEditPlatNew=(platId)=>{
+  if(!S.platsList)S.platsList=[...DEFAULT_PLATS];
+  const idx=S.platsList.findIndex(p=>p.id===platId);
+  if(idx<0)return;
+  const get=(id)=>(document.getElementById(id)||{}).value?.trim();
+  S.platsList[idx]={
+    ...S.platsList[idx],
+    emoji:get("ep-emoji")||S.platsList[idx].emoji,
+    name:get("ep-nombre")||S.platsList[idx].name,
+    tipo:get("ep-tipo")||S.platsList[idx].tipo,
+    color:get("ep-color")||S.platsList[idx].color,
+  };
   saveState();closeModal();render();
 };
 window.deletePlat=(platId)=>{
   const plat=getPlats().find(p=>p.id===platId);if(!plat)return;
-  modal({title:`🗑 Eliminar ${plat.name}`,body:"¿Eliminar esta plataforma y todos sus datos? Esta acción no se puede deshacer.",
+  if(platTieneSaldo(platId)){
+    modal({title:`⚠️ ${plat.name} tiene saldo`,
+      body:`No puedes eliminar <b>${plat.name}</b> porque tiene <b>liquidez o activos</b>. Traspasa los fondos a otra plataforma primero (con el botón Retirar / Comprar / Vender).`,
+      ok:"Entendido",action:"closeModal()"});
+    return;
+  }
+  modal({title:`🗑 Eliminar ${plat.name}`,
+    body:`¿Eliminar la plataforma <b>${plat.name}</b>? La plataforma está vacía, no se perderán datos.`,
     ok:"Eliminar",danger:true,action:`doDeletePlatNew('${platId}')`});
 };
 window.doDeletePlatNew=(platId)=>{
-  S.customPlatforms=(S.customPlatforms||[]).filter(p=>p.id!==platId);
-  if(S.platforms&&S.platforms[platId])delete S.platforms[platId];
+  const r=opRemovePlatform(platId);
+  if(!r.ok){alert("❌ "+(r.error||"Error"));return;}
   saveState();closeModal();render();
+  showToast("✅ Plataforma eliminada");
+};
+window.toggleSubAccount=(platId,subId)=>{
+  const r=opToggleSubAccount(platId,subId);
+  if(!r.ok){alert("❌ "+(r.error||"Error"));return;}
+  saveState();render();
+  showToast(r.activado?"✅ Subcuenta activada":"✅ Subcuenta desactivada");
 };
 
 // Traspasos
@@ -3265,15 +3664,20 @@ window.confirmarTraspasoNew=(origenId,subId)=>{
     if(!S.platforms)S.platforms={};
     const ko=subId?`${origenId}_${subId}`:origenId;
     const kd=destinoId;
-    if(!S.platforms[ko])S.platforms[ko]={liquidity:{eur:0,usd:0},assets:[],extras:[]};
-    if(!S.platforms[kd])S.platforms[kd]={liquidity:{eur:0,usd:0},assets:[],extras:[]};
+    // Obtener plataformas (nivel raíz para liquidez)
+    const platOrig=S.platforms[origenId]||emptyPlatform(origenId);
+    const platDest=S.platforms[destinoId]||emptyPlatform(destinoId);
+    if(!platOrig.liquidity)platOrig.liquidity={eur:0,usd:0};
+    if(!platDest.liquidity)platDest.liquidity={eur:0,usd:0};
+    S.platforms[origenId]=platOrig;
+    S.platforms[destinoId]=platDest;
     const f=moneda==="EUR"?"eur":"usd";
-    S.platforms[ko].liquidity[f]=(S.platforms[ko].liquidity[f]||0)-enviado;
-    S.platforms[kd].liquidity[f]=(S.platforms[kd].liquidity[f]||0)+recibido;
+    platOrig.liquidity[f]=(platOrig.liquidity[f]||0)-enviado;
+    platDest.liquidity[f]=(platDest.liquidity[f]||0)+recibido;
     const com=enviado-recibido;
     if(com>0.001){
-      if(!S.platforms[ko].extras)S.platforms[ko].extras=[];
-      S.platforms[ko].extras.push({id:uid(),nombre:`Comisión traspaso → ${destino.name}`,simbolo:"FEE",unidades:1,valorUnitario:com,moneda,tipo:"extra",fecha:today()});
+      if(!platOrig.extras)platOrig.extras=[];
+      platOrig.extras.push({id:uid(),nombre:`Comision traspaso → ${destino.name}`,simbolo:"FEE",unidades:1,valorUnitario:com,moneda,tipo:"extra",fecha:today()});
     }
   }
   saveState();closeModal();render();
@@ -3326,6 +3730,27 @@ window._bindPriceButtons=()=>{
     };
   });
 };
+
+// ── Mover plataforma arriba/abajo en la lista ────────────────
+window.opMovePlatUp=(platId)=>{
+  if(!S.platsList)S.platsList=[...DEFAULT_PLATS];
+  const idx=S.platsList.findIndex(p=>p.id===platId);
+  if(idx<=0)return;
+  [S.platsList[idx-1],S.platsList[idx]]=[S.platsList[idx],S.platsList[idx-1]];
+  saveState();render();
+};
+window.opMovePlatDown=(platId)=>{
+  if(!S.platsList)S.platsList=[...DEFAULT_PLATS];
+  const idx=S.platsList.findIndex(p=>p.id===platId);
+  if(idx<0||idx>=S.platsList.length-1)return;
+  [S.platsList[idx],S.platsList[idx+1]]=[S.platsList[idx+1],S.platsList[idx]];
+  saveState();render();
+};
+
+// ── Iniciar la app ───────────────────────────────────────────
+maybeAddPortfolioSnapshot();
+saveState();
+render();
 </script>
 </body>
 </html>
