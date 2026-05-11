@@ -411,9 +411,11 @@ async function gdriveSync(action="sync"){
       const raw=localStorage.getItem(`${KEY_BASE}_${p.id}`);
       if(raw)payload[p.id]=JSON.parse(raw);
     });
+    // Google Apps Script requiere Content-Type text/plain para evitar el preflight OPTIONS
+    // El servidor debe leer e.postData.contents y parsearlo como JSON
     const res=await fetch(GDRIVE_URL,{
       method:"POST",
-      headers:{"Content-Type":"application/json"},
+      headers:{"Content-Type":"text/plain"},
       body:JSON.stringify({action,payload,ts:Date.now()}),
       mode:"cors"
     });
@@ -449,12 +451,10 @@ async function gdriveLoad(){
     if(!res.ok)throw new Error("HTTP "+res.status);
     const data=await res.json();
 
-    // Si el servidor responde pero ok es false → error del servidor
     if(data&&data.ok===false){
       throw new Error(data.error||"Error en el servidor");
     }
 
-    // Si ok===true y hay payload con datos → cargar
     if(data&&data.ok===true&&data.payload&&Object.keys(data.payload).length>0){
       Object.entries(data.payload).forEach(([pid,pdata])=>{
         if(pdata&&typeof pdata==="object"&&!Array.isArray(pdata)){
@@ -471,16 +471,15 @@ async function gdriveLoad(){
       return true;
     }
 
-    // ok===true pero payload null o vacío → primera vez, sin datos en Drive
-    // No es un error, simplemente arrancamos con datos locales
+    // ok===true pero payload null o vacío → primera vez sin datos en Drive
+    // Inicializar con plataformas por defecto sin dar error
     if(el){el.textContent="☁️ Drive";el.style.color="var(--muted)";}
-    showToast("📭 Drive conectado — sin datos guardados aún");
+    showToast("📭 Drive conectado — iniciando con datos locales");
 
   }catch(err){
     console.warn("GDrive load error:",err);
     if(el){el.textContent="⚠️ Sin Drive";el.style.color="var(--amber)";}
-    // No mostramos error crítico — la app sigue funcionando con datos locales
-    showToast("📱 Usando datos locales ("+err.message+")");
+    showToast("📱 Datos locales ("+err.message+")");
     setTimeout(()=>{
       if(el){el.textContent="☁️ Drive";el.style.color="var(--muted)";}
     },5000);
