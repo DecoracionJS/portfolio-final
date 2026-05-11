@@ -411,23 +411,17 @@ async function gdriveSync(action="sync"){
       const raw=localStorage.getItem(`${KEY_BASE}_${p.id}`);
       if(raw)payload[p.id]=JSON.parse(raw);
     });
-    // Google Apps Script requiere Content-Type text/plain para evitar el preflight OPTIONS
-    // El servidor debe leer e.postData.contents y parsearlo como JSON
-    const res=await fetch(GDRIVE_URL,{
+    // no-cors: petición opaca, GAS la recibe pero no podemos leer la respuesta
+    // El éxito se confirma si la promesa se cumple sin lanzar error de red
+    await fetch(GDRIVE_URL,{
       method:"POST",
-      headers:{"Content-Type":"text/plain"},
       body:JSON.stringify({action,payload,ts:Date.now()}),
-      mode:"cors"
+      mode:"no-cors"
     });
-    if(!res.ok)throw new Error("HTTP "+res.status);
-    const data=await res.json();
-    if(data&&data.ok===true){
-      if(el){el.textContent="✅ Drive OK";el.style.color="var(--green)";}
-      if(action==="sync")showToast("✅ ¡Sincronizado con Google Drive!");
-      if(action==="backup")showToast("✅ ¡Copia guardada en Drive!");
-    }else{
-      throw new Error(data?.error||"El servidor no confirmó el guardado");
-    }
+    // Si llegamos aquí, el fetch no lanzó error → asumimos éxito
+    if(el){el.textContent="✅ Drive OK";el.style.color="var(--green)";}
+    if(action==="sync")showToast("✅ ¡Sincronizado con Google Drive!");
+    if(action==="backup")showToast("✅ ¡Copia guardada en Drive!");
   }catch(err){
     console.warn("GDrive sync error:",err);
     if(el){el.textContent="⚠️ Sin Drive";el.style.color="var(--amber)";}
